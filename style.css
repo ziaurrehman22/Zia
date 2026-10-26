@@ -312,6 +312,57 @@ nav a:hover::after {
     transform: rotate(-8deg);
 }
 
+
+/* ========================================
+   CATEGORY FILTER SECTION
+======================================== */
+
+.category-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.category-btn {
+    padding: 10px 20px;
+    background: var(--card);
+    color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: capitalize;
+}
+
+.category-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.category-btn.active {
+    background: var(--orange);
+    color: #FFFFFF;
+    border-color: var(--orange);
+    box-shadow: 0 4px 12px rgba(35, 68, 93, 0.15);
+}
+
+@media (max-width: 500px) {
+    .category-section {
+        gap: 8px;
+        margin-bottom: 28px;
+    }
+
+    .category-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+}
+
 /* ========================================
    GENERAL SECTIONS
 ======================================== */

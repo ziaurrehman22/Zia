@@ -1,4 +1,3 @@
-
 /* ==========================================
    ZIA CLOTHING
    The Art of Dressing
@@ -48,15 +47,17 @@
 const products = [
     {
         id: 1,
-        name: "Classic White Shirt",
+        name: "Classic White Formal Shirt",
         price: 1800,
+        category: "formal shirts",
         image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80",
-        description: "A timeless shirt for a clean, elegant look."
+        description: "A timeless formal shirt for a clean, elegant look."
     },
     {
         id: 2,
         name: "Casual Blue Shirt",
         price: 2200,
+        category: "shirts",
         image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
         description: "Comfortable style for everyday wear."
     },
@@ -64,13 +65,15 @@ const products = [
         id: 3,
         name: "Classic Trousers",
         price: 2800,
+        category: "trousers",
         image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=600&q=80",
         description: "Smart trousers for a polished appearance."
     },
     {
         id: 4,
-        name: "Casual T-Shirt",
+        name: "Casual Graphic T-Shirt",
         price: 1200,
+        category: "t-shirts",
         image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80",
         description: "A versatile essential for daily outfits."
     },
@@ -78,15 +81,25 @@ const products = [
         id: 5,
         name: "Premium Polo Shirt",
         price: 1900,
+        category: "polo shirts",
         image: "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
         description: "A refined polo for effortless style."
     },
     {
         id: 6,
-        name: "Everyday Pants",
-        price: 2500,
-        image: "https://images.unsplash.com/photo-1714729382668-7bc3bb261662?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
-        description: "Comfort and versatility for every day."
+        name: "Cozy Fleece Hoodie",
+        price: 3200,
+        category: "hoodies",
+        image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
+        description: "Warm and comfortable hoodie for casual days."
+    },
+    {
+        id: 7,
+        name: "Printed Resort Shirt",
+        price: 2400,
+        category: "other shirts",
+        image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
+        description: "Relaxed fit printed shirt for casual outings."
     }
 ];
 
@@ -118,50 +131,67 @@ function money(amount) {
 
 
 /* ==========================================
-   4. DISPLAY PRODUCTS
+   4. DISPLAY & FILTER PRODUCTS
 ========================================== */
 
 const productGrid = document.getElementById("product-grid");
+const categorySection = document.getElementById("category-section");
 
-if (productGrid) {
-    productGrid.innerHTML = products.map(product => `
+function displayProducts(filteredCategory = "all") {
+    if (!productGrid) return;
+
+    const itemsToDisplay = filteredCategory === "all"
+        ? products
+        : products.filter(p => p.category.toLowerCase() === filteredCategory.toLowerCase());
+
+    if (itemsToDisplay.length === 0) {
+        productGrid.innerHTML = `
+            <p style="grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 40px 0;">
+                No products found in this category.
+            </p>
+        `;
+        return;
+    }
+
+    productGrid.innerHTML = itemsToDisplay.map(product => `
         <article class="product-card">
-
             <div class="product-image">
-                <img
-                    src="${product.image}"
-                    alt="${product.name}"
-                    loading="lazy"
-                >
+                <img src="${product.image}" alt="${product.name}" loading="lazy">
             </div>
-
             <div class="product-info">
                 <h3>${product.name}</h3>
-
                 <p>${product.description}</p>
-
                 <div class="product-bottom">
-                    <span class="price">
-                        ${money(product.price)}
-                    </span>
-
-                    <button
-                        class="add-btn"
-                        data-add="${product.id}"
-                        type="button"
-                    >
-                        <i class="fa-solid fa-bag-shopping"></i>
-                        Add to Bag
+                    <span class="price">${money(product.price)}</span>
+                    <button class="add-btn" data-add="${product.id}" type="button">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
                     </button>
                 </div>
             </div>
-
         </article>
     `).join("");
+}
 
+// Initial display
+displayProducts();
+
+// Category button selection handling
+if (categorySection) {
+    categorySection.addEventListener("click", (e) => {
+        const btn = e.target.closest(".category-btn");
+        if (!btn) return;
+
+        document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const selectedCategory = btn.dataset.category;
+        displayProducts(selectedCategory);
+    });
+}
+
+if (productGrid) {
     productGrid.addEventListener("click", event => {
         const button = event.target.closest("[data-add]");
-
         if (!button) return;
 
         addToCart(Number(button.dataset.add));
@@ -242,66 +272,41 @@ function renderCart() {
     if (cart.length === 0) {
         container.innerHTML = `
             <div class="empty-cart">
-
                 <i class="fa-solid fa-bag-shopping"></i>
-
                 <h2>Your Bag Is Empty</h2>
-
                 <p>
                     Discover your next favourite outfit
                     from the ZIA collection.
                 </p>
-
                 <br>
-
-                <a
-                    class="btn"
-                    href="index.html#collection"
-                >
+                <a class="btn" href="index.html#collection">
                     Explore Collection
                 </a>
-
             </div>
         `;
     } else {
         container.innerHTML = cart.map(item => `
             <article class="cart-item">
-
-                <img
-                    src="${item.image}"
-                    alt="${item.name}"
-                >
-
+                <img src="${item.image}" alt="${item.name}">
                 <div class="cart-item-info">
-
                     <h3>${item.name}</h3>
-
-                    <p>
-                        ${money(item.price * item.quantity)}
-                    </p>
-
+                    <p>${money(item.price * item.quantity)}</p>
                     <div class="quantity">
-
                         <button
                             data-change="-1"
                             data-id="${item.id}"
                             type="button"
                             aria-label="Decrease quantity"
                         >−</button>
-
                         <span>${item.quantity}</span>
-
                         <button
                             data-change="1"
                             data-id="${item.id}"
                             type="button"
                             aria-label="Increase quantity"
                         >+</button>
-
                     </div>
-
                 </div>
-
                 <button
                     class="remove-btn"
                     data-remove="${item.id}"
@@ -310,7 +315,6 @@ function renderCart() {
                 >
                     <i class="fa-solid fa-trash"></i>
                 </button>
-
             </article>
         `).join("");
     }
@@ -519,8 +523,6 @@ if (checkoutBtn) {
             return;
         }
 
-        // Replace with your actual WhatsApp number.
-        // Country code only: no +, spaces, or dashes.
         const phoneNumber = "923710201700";
 
         let orderText =
@@ -541,7 +543,8 @@ if (checkoutBtn) {
         orderText += `\nTotal Amount: ${money(subtotal)}\n`;
         orderText +=
             "\nPlease confirm availability and delivery details.";
-        orderText += "\nHow much delivery charges?"; orderText += "\nThank you!";
+        orderText += "\nHow much delivery charges?";
+        orderText += "\nThank you!";
 
         const whatsappURL =
             `https://wa.me/${phoneNumber}?text=` +
@@ -550,15 +553,12 @@ if (checkoutBtn) {
         message.textContent =
             "Opening WhatsApp to review your order...";
 
-        // Preserve cart until the customer confirms the order.
         const whatsappWindow = window.open(
             whatsappURL,
             "_blank"
         );
 
         if (!whatsappWindow) {
-            // If the browser blocks the popup, open WhatsApp
-            // in the current tab instead.
             window.location.href = whatsappURL;
         }
     });
