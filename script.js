@@ -100,6 +100,30 @@ const products = [
         category: "other shirts",
         image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
         description: "Relaxed fit printed shirt for casual outings."
+    },
+    {
+        id: 8,
+        name: "Printed Resort Shirt",
+        price: 2400,
+        category: "other shirts",
+        image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
+        description: "Relaxed fit printed shirt for casual outings."
+    },
+    {
+        id: 9,
+        name: "Printed Resort Shirt",
+        price: 2400,
+        category: "other shirts",
+        image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
+        description: "Relaxed fit printed shirt for casual outings."
+    },
+    {
+        id: 10,
+        name: "Printed Resort Shirt",
+        price: 2400,
+        category: "other shirts",
+        image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
+        description: "Relaxed fit printed shirt for casual outings."
     }
 ];
 
