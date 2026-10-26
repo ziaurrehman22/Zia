@@ -90,7 +90,7 @@ button {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(241, 248, 252, 0.96);
+    background: rgba(241, 248, 252, 0.884);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
 }
