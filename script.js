@@ -58,9 +58,9 @@ const products = [
     {
         id: 1,
         name: "Classic White Formal Shirt",
-        price: 1800,
+        price: 2000,
         category: "formal shirts",
-        image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80",
+        image: "images/white-shirt.jfif",
         description: "A timeless formal shirt for a clean, elegant look."
     },
     {
@@ -129,11 +129,11 @@ const products = [
     },
     {
         id: 10,
-        name: "Printed Resort Shirt",
-        price: 2400,
+        name: "Black Hoodie",
+        price: 2999,
         category: "hoodies",
-        image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
-        description: "Relaxed fit printed shirt for casual outings."
+        image: "images/black-hoodie.jfif",
+        description: "Simple and classic black hoodie."
     }
 ];
 
