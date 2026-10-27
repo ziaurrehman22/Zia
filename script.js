@@ -604,3 +604,37 @@ if (checkoutBtn) {
 ========================================== */
 
 updateCartCount();
+
+/* ==========================================
+   13. DARK / LIGHT THEME TOGGLE
+========================================== */
+
+(function initTheme() {
+    const savedTheme = localStorage.getItem("ziaTheme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const themeToggleBtn = document.getElementById("theme-toggle");
+
+    if (themeToggleBtn) {
+        // Update icon based on current theme
+        const updateIcon = () => {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            themeToggleBtn.innerHTML = currentTheme === "dark"
+                ? '<i class="fa-solid fa-sun"></i>'
+                : '<i class="fa-solid fa-moon"></i>';
+        };
+
+        updateIcon();
+
+        themeToggleBtn.addEventListener("click", () => {
+            let currentTheme = document.documentElement.getAttribute("data-theme");
+            let newTheme = currentTheme === "dark" ? "light" : "dark";
+
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("ziaTheme", newTheme);
+            updateIcon();
+        });
+    }
+});

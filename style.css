@@ -2,7 +2,7 @@
 
 /* ========================================
    ZIA — THE ART OF DRESSING
-   SKY BLUE LUXURY THEME
+   THEME VARIABLES
 ======================================== */
 
 :root {
@@ -18,6 +18,27 @@
     --danger: #B74747;
     --soft-blue: #DCEEF7;
     --pure-white: #FFFFFF;
+    --input-bg: #FFFFFF;
+    --input-placeholder: #94A5B0;
+    --footer-text: #728795;
+}
+
+[data-theme="dark"] {
+    --bg: #0B131A;
+    --card: #131F2B;
+    --orange: #5288AD;
+    --orange-dark: #6CA6C9;
+    --accent: #78B2D4;
+    --white: #E6F0F5;
+    --muted: #93A8B6;
+    --border: #1F3242;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --danger: #E06C6C;
+    --soft-blue: #182A3A;
+    --pure-white: #131F2B;
+    --input-bg: #0E1721;
+    --input-placeholder: #5C7384;
+    --footer-text: #93A8B6;
 }
 
 /* ========================================
@@ -43,6 +64,7 @@ body {
     color: var(--white);
     line-height: 1.6;
     overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -90,9 +112,10 @@ button {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(241, 248, 252, 0.884);
+    background: var(--bg);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .logo {
@@ -102,10 +125,46 @@ button {
 }
 
 .logo img {
+    box-shadow: 0 10px 30px rgba(35, 68, 93, .15);
     width: 100px;
     height: auto;
     object-fit: contain;
     user-select: none;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ========================================
+   LOGO ADAPTATION FOR DARK THEME
+======================================== */
+
+[data-theme="dark"] .logo img,
+[data-theme="dark"] footer .logo img {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--soft-blue);
 }
 
 nav {
@@ -225,7 +284,7 @@ nav a:hover::after {
     overflow: hidden;
     background:
         radial-gradient(ellipse at 85% 45%,
-            #DCEEF7 0%,
+            var(--soft-blue) 0%,
             transparent 45%),
         var(--bg);
 }
@@ -311,7 +370,6 @@ nav a:hover::after {
     box-shadow: var(--shadow);
     transform: rotate(-8deg);
 }
-
 
 /* ========================================
    CATEGORY FILTER SECTION
@@ -529,17 +587,25 @@ nav a:hover::after {
 footer {
     padding: 30px 7%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 15px;
+    gap: 12px;
     background: var(--bg);
     border-top: 1px solid var(--border);
+    text-align: center;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+footer .logo img {
+    width: 65px;
+    height: auto;
+    object-fit: contain;
 }
 
 footer p {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.8;
+    color: var(--footer-text);
+    font-size: 14px;
+    line-height: 1.7;
 }
 
 footer a {
@@ -588,10 +654,6 @@ footer a:hover {
     margin-bottom: 10px;
 }
 
-.auth-logo img {
-    margin: auto;
-}
-
 .auth-card h1 {
     margin-bottom: 8px;
     color: var(--white);
@@ -623,7 +685,7 @@ footer a:hover {
 .form-group input {
     width: 100%;
     padding: 13px 14px;
-    background: #FFFFFF;
+    background: var(--input-bg);
     color: var(--white);
     border: 1px solid var(--border);
     border-radius: 7px;
@@ -633,7 +695,7 @@ footer a:hover {
 }
 
 .form-group input::placeholder {
-    color: #94A5B0;
+    color: var(--input-placeholder);
 }
 
 .form-group input:focus {
@@ -741,7 +803,7 @@ footer a:hover {
 .remove-btn {
     padding: 6px 10px;
     color: var(--white);
-    background: #EDF5F9;
+    background: var(--soft-blue);
     border: 1px solid var(--border);
     border-radius: 5px;
     cursor: pointer;
@@ -749,12 +811,13 @@ footer a:hover {
 }
 
 .quantity button:hover {
-    background: var(--soft-blue);
+    background: var(--accent);
+    color: #FFFFFF;
 }
 
 .remove-btn {
     color: var(--danger);
-    background: #FFFFFF;
+    background: var(--card);
 }
 
 .remove-btn:hover {
@@ -879,21 +942,13 @@ footer a:hover {
 }
 
 /* ========================================
-   TABLET RESPONSIVE
+   RESPONSIVE STYLES
 ======================================== */
 
 @media (max-width: 800px) {
     .navbar {
         padding: 16px 5%;
         flex-wrap: wrap;
-    }
-
-    nav {
-        order: 3;
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 17px;
     }
 
     .hero {
@@ -933,10 +988,6 @@ footer a:hover {
     }
 }
 
-/* ========================================
-   MOBILE RESPONSIVE
-======================================== */
-
 @media (max-width: 500px) {
     .navbar {
         padding: 14px 5%;
@@ -945,14 +996,6 @@ footer a:hover {
 
     .logo img {
         width: 80px;
-    }
-
-    nav {
-        gap: 12px;
-    }
-
-    nav a {
-        font-size: 12px;
     }
 
     .hero {
@@ -965,38 +1008,9 @@ footer a:hover {
         letter-spacing: -1px;
     }
 
-    .hero p {
-        font-size: 14px;
-    }
-
-    .hero-image {
-        width: min(85%, 300px);
-    }
-
-    .floating-badge {
-        padding: 10px 13px;
-        font-size: 11px;
-    }
-
-    .section {
-        padding: 55px 5%;
-    }
-
-    .section-heading {
-        margin-bottom: 28px;
-    }
-
     .product-grid {
         grid-template-columns: 1fr;
         gap: 20px;
-    }
-
-    .product-card img {
-        height: 260px;
-    }
-
-    .product-info {
-        padding: 17px;
     }
 
     .auth-page {
@@ -1005,10 +1019,6 @@ footer a:hover {
 
     .auth-card {
         padding: 27px 22px;
-    }
-
-    .auth-card h1 {
-        font-size: 25px;
     }
 
     .cart-page {
@@ -1020,92 +1030,36 @@ footer a:hover {
         gap: 12px;
     }
 
-    .cart-item img {
-        width: 75px;
-        height: 75px;
-    }
-
     .cart-summary {
         padding: 20px;
     }
 
-    .promo {
-        padding: 50px 18px;
-    }
-
     footer {
-        flex-direction: column;
         padding: 25px 5%;
-        text-align: center;
     }
 }
 
 /* ========================================
-   ACCESSIBILITY
+   ACCESSIBILITY & SCROLLBAR
 ======================================== */
 
 a:focus-visible,
 button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
+input:focus-visible {
     outline: 3px solid var(--accent);
     outline-offset: 3px;
 }
-
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-    }
-}
-
-/* ========================================
-   CUSTOM SCROLLBAR
-======================================== */
 
 ::-webkit-scrollbar {
     width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #E5F0F6;
+    background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #8BBBD7;
-    border: 2px solid #E5F0F6;
+    background: var(--accent);
+    border: 2px solid var(--bg);
     border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #23445D;
-}
-
-footer {
-    background: var(--bg);
-    color: black;
-    text-align: center;
-    padding: 25px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-
-footer .logo img {
-    width: 65px;
-    height: auto;
-    object-fit: contain;
-}
-
-footer p {
-    font-size: 14px;
-    line-height: 1.7;
-    /* color: #D6E5EE; */
 }
