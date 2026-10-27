@@ -947,6 +947,11 @@ footer a:hover {
 ======================================== */
 
 @media (max-width: 800px) {
+
+    .cart-link p {
+        font-size: 12px;
+    }
+
     .navbar {
         padding: 16px 5%;
         flex-wrap: wrap;
@@ -990,6 +995,11 @@ footer a:hover {
 }
 
 @media (max-width: 500px) {
+
+    .cart-link p {
+        font-size: 12px;
+    }
+
     .navbar {
         padding: 14px 5%;
         gap: 12px;
