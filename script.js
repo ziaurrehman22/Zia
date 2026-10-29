@@ -32,105 +32,83 @@
 const products = [
     {
         id: 1,
-        name: "Minimalist Oxford Shirt",
-        price: 2400,
+        name: "Black Formal-Shirt",
+        price: 1499,
         category: "formal shirts",
-        image: "images/white-shirt.jfif",
+        image: "images/black-formal.jfif",
         sizes: ["S", "M", "L", "XL"],
         description: "Crisp cotton oxford shirt tailored for executive meetings and formal events.",
         details: "Made from 100% long-staple Egyptian cotton for high durability and breathability. Features a tailored slim fit, button-down collar, and stain-resistant treatment."
     },
     {
         id: 2,
-        name: "Vintage Washed Denim Shirt",
-        price: 2600,
-        category: "shirts",
-        image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
-        sizes: ["M", "L", "XL", "XXL"],
-        description: "Soft indigo wash denim shirt built for rugged everyday styling.",
-        details: "Hand-washed vintage denim constructed with reinforced twin-needle stitching. Designed with dual flap chest pockets and snap buttons."
+        name: "White Formal-Shirt",
+        price: 1499,
+        category: "formal shirts",
+        image: "images/formal-white.jfif",
+        sizes: ["S", "M", "L", "XL"],
+        description: "A clean, stylish cotton shirt built for work and formal events.",
+        details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
     },
     {
         id: 3,
-        name: "Pleated Tailored Trousers",
-        price: 3100,
-        category: "trousers",
-        image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=600&q=80",
-        sizes: ["30", "32", "34", "36", "38"],
-        description: "Relaxed-yet-sharp pleated trousers designed with premium stretch fabric.",
-        details: "Premium wool-blend chino with subtle flex elasticity. Features double front pleats, hidden expandable waistband, and rear welt pockets."
+        name: "Charcoal-Gray Formal-Shirt",
+        price: 1499,
+        category: "formal shirts",
+        image: "images/charcoal-gray-formal.jfif",
+        sizes: ["S", "M", "L", "XL"],
+        description: "A clean, stylish cotton shirt built for work and formal events.",
+        details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
     },
     {
         id: 4,
-        name: "Monochrome Streetwear Tee",
-        price: 1400,
-        category: "t-shirts",
-        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80",
+        name: "Light-Gray Formal-Shirt",
+        price: 1499,
+        category: "formal shirts",
+        image: "images/light-gray-formal.jfif",
         sizes: ["S", "M", "L", "XL"],
-        description: "Heavyweight cotton tee featuring a clean, modern chest graphic.",
-        details: "240 GSM heavy combed cotton. Relaxed drop-shoulder silhouette with screen-printed minimalist emblem that retains color wash after wash."
+        description: "A clean, stylish cotton shirt built for work and formal events.",
+        details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
     },
     {
         id: 5,
-        name: "Structured Knit Polo",
+        name: "Textured Cotton Polo",
         price: 2100,
         category: "polo shirts",
-        image: "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
-        sizes: ["M", "L", "XL"],
-        description: "Breathable knit polo shirt offering a sophisticated smart-casual silhouette.",
-        details: "Fine-gauge cotton piqué blend designed to stay cool under heat. Features rib-knit cuffs, a classic three-button placket, and collar anti-roll ribs."
-    },
-    {
-        id: 6,
-        name: "Oversized Heritage Hoodie",
-        price: 3500,
-        category: "hoodies",
-        image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
-        sizes: ["S", "M", "L", "XL", "XXL"],
-        description: "Plush fleece oversized hoodie crafted for supreme comfort and cozy layering.",
-        details: "380 GSM ultra-soft fleece back lining. Heavy-duty double-layered hood, spacious kangaroo front pocket, and pre-shrunk fabric construction."
-    },
-    {
-        id: 7,
-        name: "Botanical Silk-Blend Cabana Shirt",
-        price: 2700,
-        category: "casual shirts",
-        image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
-        sizes: ["S", "M", "L"],
-        description: "Lightweight resort shirt featuring an artistic tropical leaf pattern.",
-        details: "Breathable silk-rayon blend tailored with a straight relaxed hem and side vents. Perfect for warm climate events and casual getaways."
-    },
-    {
-        id: 8,
-        name: "Cuban Collar Striped Shirt",
-        price: 2500,
-        category: "casual shirts",
-        image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80",
-        sizes: ["M", "L", "XL"],
-        description: "Retro-inspired vertical stripe shirt with an open camp collar.",
-        details: "Soft linen-cotton blend designed with an open relaxed collar structure and natural coconut shell buttons."
-    },
-    {
-        id: 9,
-        name: "Sueded Finish Overshirt",
-        price: 3400,
-        category: "jackets",
-        image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
-        sizes: ["M", "L", "XL"],
-        description: "Luxurious faux-suede overshirt designed for transitional weather layering.",
-        details: "Micro-suede texture with satin inner lining. Fitted with heavy metal button closures and dual functional breast flap pockets."
-    },
-    {
-        id: 10,
-        name: "Essential Charcoal Pullover",
-        price: 3200,
-        category: "hoodies",
-        image: "images/black-hoodie.jfif",
+        image: "images/black-polo.jfif",
         sizes: ["S", "M", "L", "XL"],
-        description: "Clean, minimalist dark charcoal hoodie with a double-lined hood.",
-        details: "Mid-weight cotton poly blend. Includes rib-knit hem and cuffs with anti-pill finishing for long-term wear."
-    }
+        description: "A stylish polo with a clean texture, perfect for casual outings.",
+        details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+    },
+    {
+        id: 5,
+        name: "Textured Cotton Polo",
+        price: 2100,
+        category: "polo shirts",
+        image: "images/white-polo.jfif",
+        sizes: ["S", "M", "L", "XL"],
+        description: "A stylish polo with a clean texture, perfect for casual outings.",
+        details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+    },
+    {
+        id: 5,
+        name: "Textured Cotton Polo",
+        price: 2100,
+        category: "polo shirts",
+        image: "images/blue-polo.jfif",
+        sizes: ["S", "M", "L", "XL"],
+        description: "A stylish polo with a clean texture, perfect for casual outings.",
+        details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+    },
 ];
+
+
+// category: "jackets",
+// category: "hoodies",
+// category: "trousers",
+// category: "t-shirts",
+// category: "casual shirts",
+
 
 /* 3. HELPERS */
 function getCart() {
@@ -433,18 +411,6 @@ function initProductDetailPage() {
             <div class="detail-info">
                 <span class="detail-category">${product.category.toUpperCase()}</span>
                 <h1 class="detail-title">${product.name}</h1>
-                
-                <div class="detail-rating">
-                    <div class="stars">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star-half-stroke"></i>
-                    </div>
-                    <span class="rating-count">4.8 (124 ratings)</span>
-                </div>
-
                 <div class="detail-price-box">
                     <span class="detail-price">${money(product.price)}</span>
                     <span class="stock-status" style="color: #27AE60;"><i class="fa-solid fa-check-circle"></i> In Stock</span>

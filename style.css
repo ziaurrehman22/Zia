@@ -99,6 +99,7 @@ button {
     position: sticky;
     top: 0;
     z-index: 100;
+    opacity: 0.98;
     background: var(--bg);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
