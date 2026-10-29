@@ -536,7 +536,7 @@ if (checkoutBtn) {
         }
 
         const phoneNumber = "923710201700";
-        let orderText = "Hello ZIA Clothing! I would like to place this order:\n\n";
+        let orderText = "`Hello ZIA Clothing!` I would like to place this order:\n\n";
 
         cart.forEach((item, index) => {
             orderText += `${index + 1}. ${item.name} (Size: ${item.size || 'M'}) x ${item.quantity} - ${money(item.price * item.quantity)}\n`;
@@ -544,7 +544,7 @@ if (checkoutBtn) {
 
         const subtotal = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity), 0);
 
-        orderText += `\nTotal Amount: ${money(subtotal)}\n`;
+        orderText += `\nTotal Amount:*${money(subtotal)}*\n`;
         orderText += "\nPlease confirm availability and delivery details.";
         orderText += "\nHow much delivery charges?";
         orderText += "\nThank you!";
