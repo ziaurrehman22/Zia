@@ -862,6 +862,10 @@ footer p {
     line-height: 1.7;
 }
 
+/* ==========================================================================
+   Keyframe Animations
+   ========================================================================== */
+
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -886,7 +890,17 @@ footer p {
     }
 }
 
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+/* Medium Devices (Tablets & Small Laptops: max-width 850px) */
 @media (max-width: 850px) {
+
+    .cart-link {
+        font-size: 18px;
+    }
+
     .hero {
         min-height: auto;
         padding: 55px 7%;
@@ -929,7 +943,12 @@ footer p {
     }
 }
 
+/* Small Devices (Mobile Phones: max-width 500px) */
 @media (max-width: 500px) {
+    .cart-link {
+        font-size: 15px;
+    }
+
     .navbar {
         padding: 14px 5%;
         gap: 12px;
@@ -954,7 +973,6 @@ footer p {
         gap: 20px;
     }
 }
-
 
 /* Radio Button Size Selector Styling */
 .size-selector {
