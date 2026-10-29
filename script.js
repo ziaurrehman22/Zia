@@ -41,16 +41,6 @@
 
 
 /* ==========================================
-
-formal shirts
-shirts
-trousers
-t-shirts
-polo shirts
-hoodies
-other shirts
-
-
    2. CLOTHING PRODUCTS
 ========================================== */
 
@@ -188,12 +178,12 @@ function displayProducts(filteredCategory = "all") {
     }
 
     productGrid.innerHTML = itemsToDisplay.map(product => `
-        <article class="product-card">
-            <div class="product-image">
+        <article class="product-card" data-card-id="${product.id}">
+            <div class="product-image" style="cursor: pointer;">
                 <img src="${product.image}" alt="${product.name}" loading="lazy">
             </div>
             <div class="product-info">
-                <h3>${product.name}</h3>
+                <h3 style="cursor: pointer;">${product.name}</h3>
                 <p>${product.description}</p>
                 <div class="product-bottom">
                     <span class="price">${money(product.price)}</span>
@@ -225,10 +215,18 @@ if (categorySection) {
 
 if (productGrid) {
     productGrid.addEventListener("click", event => {
-        const button = event.target.closest("[data-add]");
-        if (!button) return;
+        const addButton = event.target.closest("[data-add]");
 
-        addToCart(Number(button.dataset.add));
+        if (addButton) {
+            addToCart(Number(addButton.dataset.add));
+            return;
+        }
+
+        const card = event.target.closest(".product-card");
+        if (card) {
+            const productId = Number(card.dataset.cardId);
+            openProductModal(productId);
+        }
     });
 }
 
@@ -293,320 +291,68 @@ function updateCartCount() {
 
 
 /* ==========================================
-   7. RENDER CART PAGE
+   7. PRODUCT DETAIL MODAL LOGIC
 ========================================== */
 
-function renderCart() {
-    const container = document.getElementById("cart-items");
+const modal = document.getElementById("product-modal");
+const modalCloseBtn = document.getElementById("modal-close");
+const modalImg = document.getElementById("modal-img");
+const modalTitle = document.getElementById("modal-title");
+const modalCategory = document.getElementById("modal-category");
+const modalDescription = document.getElementById("modal-description");
+const modalPrice = document.getElementById("modal-price");
+const modalAddBtn = document.getElementById("modal-add-btn");
 
-    if (!container) return;
+function openProductModal(productId) {
+    if (!modal) return;
 
-    const cart = getCart();
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
 
-    if (cart.length === 0) {
-        container.innerHTML = `
-            <div class="empty-cart">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <h2>Your Bag Is Empty</h2>
-                <p>
-                    Discover your next favourite outfit
-                    from the ZIA collection.
-                </p>
-                <br>
-                <a class="btn" href="index.html#collection">
-                    Explore Collection
-                </a>
-            </div>
-        `;
-    } else {
-        container.innerHTML = cart.map(item => `
-            <article class="cart-item">
-                <img src="${item.image}" alt="${item.name}">
-                <div class="cart-item-info">
-                    <h3>${item.name}</h3>
-                    <p>${money(item.price * item.quantity)}</p>
-                    <div class="quantity">
-                        <button
-                            data-change="-1"
-                            data-id="${item.id}"
-                            type="button"
-                            aria-label="Decrease quantity"
-                        >−</button>
-                        <span>${item.quantity}</span>
-                        <button
-                            data-change="1"
-                            data-id="${item.id}"
-                            type="button"
-                            aria-label="Increase quantity"
-                        >+</button>
-                    </div>
-                </div>
-                <button
-                    class="remove-btn"
-                    data-remove="${item.id}"
-                    type="button"
-                    aria-label="Remove ${item.name}"
-                >
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </article>
-        `).join("");
+    modalImg.src = product.image;
+    modalImg.alt = product.name;
+    modalTitle.textContent = product.name;
+    modalCategory.textContent = product.category.toUpperCase();
+    modalDescription.textContent = product.description;
+    modalPrice.textContent = money(product.price);
+
+    if (modalAddBtn) {
+        modalAddBtn.onclick = () => {
+            addToCart(product.id);
+        };
     }
 
-    const subtotal = cart.reduce(
-        (sum, item) =>
-            sum + Number(item.price) * Number(item.quantity),
-        0
-    );
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+}
 
-    const subtotalElement = document.getElementById("subtotal");
-    const totalElement = document.getElementById("total");
+function closeProductModal() {
+    if (!modal) return;
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+}
 
-    if (subtotalElement) {
-        subtotalElement.textContent = money(subtotal);
+if (modalCloseBtn) {
+    modalCloseBtn.addEventListener("click", closeProductModal);
+}
+
+if (modal) {
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            closeProductModal();
+        }
+    });
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && modal.classList.contains("active")) {
+        closeProductModal();
     }
-
-    if (totalElement) {
-        totalElement.textContent = money(subtotal);
-    }
-
-    updateCartCount();
-}
+});
 
 
 /* ==========================================
-   8. CHANGE QUANTITY / REMOVE PRODUCT
-========================================== */
-
-const cartItems = document.getElementById("cart-items");
-
-if (cartItems) {
-    cartItems.addEventListener("click", event => {
-        const changeButton = event.target.closest("[data-change]");
-        const removeButton = event.target.closest("[data-remove]");
-
-        let cart = getCart();
-
-        if (changeButton) {
-            const id = Number(changeButton.dataset.id);
-
-            const item = cart.find(
-                product => product.id === id
-            );
-
-            if (item) {
-                item.quantity += Number(
-                    changeButton.dataset.change
-                );
-            }
-
-            cart = cart.filter(
-                product => product.quantity > 0
-            );
-        }
-
-        if (removeButton) {
-            const id = Number(removeButton.dataset.remove);
-
-            cart = cart.filter(
-                product => product.id !== id
-            );
-        }
-
-        saveCart(cart);
-        renderCart();
-    });
-
-    renderCart();
-}
-
-
-/* ==========================================
-   9. SIGNUP
-========================================== */
-
-const signupForm = document.getElementById("signup-form");
-
-if (signupForm) {
-    signupForm.addEventListener("submit", event => {
-        event.preventDefault();
-
-        const username = document
-            .getElementById("username")
-            .value.trim();
-
-        const email = document
-            .getElementById("email")
-            .value.trim()
-            .toLowerCase();
-
-        const password = document
-            .getElementById("password")
-            .value;
-
-        const message =
-            document.getElementById("auth-message");
-
-        const users = JSON.parse(
-            localStorage.getItem("ziaUsers") || "[]"
-        );
-
-        if (!username || !email || !password) {
-            message.textContent = "Please complete all fields.";
-            return;
-        }
-
-        if (users.some(user => user.email === email)) {
-            message.textContent =
-                "This email is already registered.";
-            return;
-        }
-
-        users.push({
-            username,
-            email,
-            password
-        });
-
-        localStorage.setItem(
-            "ziaUsers",
-            JSON.stringify(users)
-        );
-
-        message.textContent =
-            "Account created! Redirecting to login...";
-
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 1000);
-    });
-}
-
-
-/* ==========================================
-   10. LOGIN
-========================================== */
-
-const loginForm = document.getElementById("login-form");
-
-if (loginForm) {
-    loginForm.addEventListener("submit", event => {
-        event.preventDefault();
-
-        const email = document
-            .getElementById("email")
-            .value.trim()
-            .toLowerCase();
-
-        const password = document
-            .getElementById("password")
-            .value;
-
-        const message =
-            document.getElementById("auth-message");
-
-        const users = JSON.parse(
-            localStorage.getItem("ziaUsers") || "[]"
-        );
-
-        const user = users.find(
-            item =>
-                item.email === email &&
-                item.password === password
-        );
-
-        if (!user) {
-            message.textContent =
-                "Invalid email or password. Please sign up first.";
-            return;
-        }
-
-        localStorage.setItem(
-            "ziaCurrentUser",
-            JSON.stringify({
-                username: user.username,
-                email: user.email
-            })
-        );
-
-        message.textContent = "Login successful!";
-
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 700);
-    });
-}
-
-
-/* ==========================================
-   11. WHATSAPP CHECKOUT
-========================================== */
-
-const checkoutBtn = document.getElementById("checkout-btn");
-
-if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", () => {
-        const message =
-            document.getElementById("checkout-message");
-
-        const cart = getCart();
-
-        if (cart.length === 0) {
-            message.textContent =
-                "Your shopping bag is empty!";
-            return;
-        }
-
-        const phoneNumber = "923710201700";
-
-        let orderText =
-            "Hello ZIA Clothing! I would like to place this order:\n\n";
-
-        cart.forEach((item, index) => {
-            orderText +=
-                `${index + 1}. ${item.name} x ${item.quantity} - ` +
-                `${money(item.price * item.quantity)}\n`;
-        });
-
-        const subtotal = cart.reduce(
-            (sum, item) =>
-                sum + Number(item.price) * Number(item.quantity),
-            0
-        );
-
-        orderText += `\nTotal Amount: ${money(subtotal)}\n`;
-        orderText +=
-            "\nPlease confirm availability and delivery details.";
-        orderText += "\nHow much delivery charges?";
-        orderText += "\nThank you!";
-
-        const whatsappURL =
-            `https://wa.me/${phoneNumber}?text=` +
-            encodeURIComponent(orderText);
-
-        message.textContent =
-            "Opening WhatsApp to review your order...";
-
-        const whatsappWindow = window.open(
-            whatsappURL,
-            "_blank"
-        );
-
-        if (!whatsappWindow) {
-            window.location.href = whatsappURL;
-        }
-    });
-}
-
-
-/* ==========================================
-   12. INITIALIZE
-========================================== */
-
-updateCartCount();
-
-/* ==========================================
-   13. DARK / LIGHT THEME TOGGLE
+   8. DARK / LIGHT THEME TOGGLE
 ========================================== */
 
 (function initTheme() {
@@ -615,10 +361,11 @@ updateCartCount();
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
+    updateCartCount();
+
     const themeToggleBtn = document.getElementById("theme-toggle");
 
     if (themeToggleBtn) {
-        // Update icon based on current theme
         const updateIcon = () => {
             const currentTheme = document.documentElement.getAttribute("data-theme");
             themeToggleBtn.innerHTML = currentTheme === "dark"
