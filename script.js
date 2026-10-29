@@ -57,83 +57,83 @@ other shirts
 const products = [
     {
         id: 1,
-        name: "Classic White Formal Shirt",
-        price: 2000,
+        name: "Minimalist Oxford Shirt",
+        price: 2400,
         category: "formal shirts",
         image: "images/white-shirt.jfif",
-        description: "A timeless formal shirt for a clean, elegant look."
+        description: "Crisp cotton oxford shirt tailored for executive meetings and formal events."
     },
     {
         id: 2,
-        name: "Casual Blue Shirt",
-        price: 2200,
+        name: "Vintage Washed Denim Shirt",
+        price: 2600,
         category: "shirts",
         image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
-        description: "Comfortable style for everyday wear."
+        description: "Soft indigo wash denim shirt built for rugged everyday styling."
     },
     {
         id: 3,
-        name: "Classic Trousers",
-        price: 2800,
+        name: "Pleated Tailored Trousers",
+        price: 3100,
         category: "trousers",
         image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=600&q=80",
-        description: "Smart trousers for a polished appearance."
+        description: "Relaxed-yet-sharp pleated trousers designed with premium stretch fabric."
     },
     {
         id: 4,
-        name: "Casual Graphic T-Shirt",
-        price: 1200,
+        name: "Monochrome Streetwear Tee",
+        price: 1400,
         category: "t-shirts",
         image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80",
-        description: "A versatile essential for daily outfits."
+        description: "Heavyweight cotton tee featuring a clean, modern chest graphic."
     },
     {
         id: 5,
-        name: "Premium Polo Shirt",
-        price: 1900,
+        name: "Structured Knit Polo",
+        price: 2100,
         category: "polo shirts",
         image: "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
-        description: "A refined polo for effortless style."
+        description: "Breathable knit polo shirt offering a sophisticated smart-casual silhouette."
     },
     {
         id: 6,
-        name: "Cozy Fleece Hoodie",
-        price: 3200,
+        name: "Oversized Heritage Hoodie",
+        price: 3500,
         category: "hoodies",
         image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
-        description: "Warm and comfortable hoodie for casual days."
+        description: "Plush fleece oversized hoodie crafted for supreme comfort and cozy layering."
     },
     {
         id: 7,
-        name: "Printed Resort Shirt",
-        price: 2400,
-        category: "other shirts",
+        name: "Botanical Silk-Blend Cabana Shirt",
+        price: 2700,
+        category: "casual shirts",
         image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
-        description: "Relaxed fit printed shirt for casual outings."
+        description: "Lightweight resort shirt featuring an artistic tropical leaf pattern."
     },
     {
         id: 8,
-        name: "Printed Resort Shirt",
-        price: 2400,
-        category: "other shirts",
-        image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
-        description: "Relaxed fit printed shirt for casual outings."
+        name: "Cuban Collar Striped Shirt",
+        price: 2500,
+        category: "casual shirts",
+        image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80",
+        description: "Retro-inspired vertical stripe shirt with an open camp collar."
     },
     {
         id: 9,
-        name: "Printed Resort Shirt",
-        price: 2400,
-        category: "other shirts",
-        image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
-        description: "Relaxed fit printed shirt for casual outings."
+        name: "Sueded Finish Overshirt",
+        price: 3400,
+        category: "jackets",
+        image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
+        description: "Luxurious faux-suede overshirt designed for transitional weather layering."
     },
     {
         id: 10,
-        name: "Black Hoodie",
-        price: 2999,
+        name: "Essential Charcoal Pullover",
+        price: 3200,
         category: "hoodies",
         image: "images/black-hoodie.jfif",
-        description: "Simple and classic black hoodie."
+        description: "Clean, minimalist dark charcoal hoodie with a double-lined hood."
     }
 ];
 
