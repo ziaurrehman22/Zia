@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
-/* ========================================
-   ZIA — THE ART OF DRESSING
-   THEME VARIABLES
-======================================== */
-
 :root {
     --bg: #F1F8FC;
     --card: #FCFCFA;
@@ -40,10 +35,6 @@
     --input-placeholder: #5C7384;
     --footer-text: #93A8B6;
 }
-
-/* ========================================
-   RESET & GLOBAL STYLES
-======================================== */
 
 * {
     margin: 0;
@@ -97,10 +88,6 @@ button {
     background: var(--accent);
     color: #FFFFFF;
 }
-
-/* ========================================
-   NAVBAR
-======================================== */
 
 .navbar {
     min-height: 78px;
@@ -193,10 +180,6 @@ button {
     border-radius: 50%;
 }
 
-/* ========================================
-   BUTTONS
-======================================== */
-
 .btn {
     display: inline-flex;
     align-items: center;
@@ -223,10 +206,6 @@ button {
     width: 100%;
     margin-top: 5px;
 }
-
-/* ========================================
-   HERO SECTION & VIDEO BACKGROUND
-======================================== */
 
 .hero {
     position: relative;
@@ -339,10 +318,6 @@ button {
     box-shadow: 0 20px 50px rgba(35, 68, 93, .15);
 }
 
-/* ========================================
-   CATEGORY FILTER SECTION
-======================================== */
-
 .category-section {
     display: flex;
     align-items: center;
@@ -377,10 +352,6 @@ button {
     box-shadow: 0 4px 12px rgba(35, 68, 93, 0.15);
 }
 
-/* ========================================
-   GENERAL SECTIONS
-======================================== */
-
 .section {
     padding: 75px 7%;
 }
@@ -403,10 +374,6 @@ button {
     font-size: 14px;
     line-height: 1.8;
 }
-
-/* ========================================
-   PRODUCT GRID
-======================================== */
 
 .product-grid {
     display: grid;
@@ -496,10 +463,6 @@ button {
     transform: translateY(-2px);
 }
 
-/* ========================================
-   PROMO BANNER
-======================================== */
-
 .promo {
     padding: 70px 20px;
     text-align: center;
@@ -526,10 +489,6 @@ button {
     border-color: var(--accent);
     color: #FFFFFF;
 }
-
-/* ========================================
-   CART PAGE STYLES
-======================================== */
 
 .cart-page {
     min-height: 75vh;
@@ -670,10 +629,6 @@ button {
     color: var(--accent);
     font-size: 40px;
 }
-
-/* ========================================
-   PRODUCT DETAIL PAGE STYLES (AMAZON STYLE)
-======================================== */
 
 .product-detail-page {
     max-width: 1200px;
@@ -883,10 +838,6 @@ button {
     height: 44px;
 }
 
-/* ========================================
-   FOOTER
-======================================== */
-
 footer {
     padding: 30px 7%;
     display: flex;
@@ -911,10 +862,6 @@ footer p {
     line-height: 1.7;
 }
 
-/* ========================================
-   ANIMATIONS
-======================================== */
-
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -938,10 +885,6 @@ footer p {
         transform: translateY(-13px) rotate(2deg);
     }
 }
-
-/* ========================================
-   RESPONSIVE STYLES
-======================================== */
 
 @media (max-width: 850px) {
     .hero {
