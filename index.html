@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zia</title>
+    <title>Zia | The Art of Dressing</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -13,14 +13,15 @@
 
 <body>
 
+    <!-- Header Navbar -->
     <header class="navbar">
         <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="">
+            <img src="images/logo.png" alt="ZIA Logo">
         </a>
 
         <div class="nav-actions">
             <a href="cart.html" class="cart-link" style="font-family: sans-serif;">
-                <p> View Cart </p>
+                <p>View Cart</p>
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span id="cart-count">0</span>
             </a>
@@ -31,18 +32,25 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main>
+        <!-- Hero Section with Full-Width Video Background -->
         <section class="hero">
+            <div class="hero-video-wrapper">
+                <video autoplay loop muted playsinline class="hero-bg-video">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-fashion-model-in-a-stylish-outfit-41564-large.mp4" type="video/mp4">
+                    Your browser does not support video tag.
+                </video>
+                <div class="hero-video-overlay"></div>
+            </div>
+
             <div class="hero-content">
                 <span class="tag">TIMELESS • ELEGANT • PREMIUM</span>
-
                 <h1>Wear Your<br><span>Own Style.</span></h1>
-
                 <p>
-                    Discover premium shirts, trousers and everyday essentials
-                    designed for effortless style, comfort and confidence.
+                    Discover premium shirts, trousers, and everyday essentials 
+                    designed for effortless style, comfort, and confidence.
                 </p>
-
                 <a href="#menu" class="btn">
                     Explore Collection
                     <i class="fa-solid fa-arrow-right"></i>
@@ -55,13 +63,14 @@
             </div>
         </section>
 
+        <!-- Collection / Menu Section -->
         <section class="menu section" id="menu">
             <div class="section-heading">
                 <h2>Create Your <span>Style</span></h2>
-                <p>Premium, Loved by everyone.</p>
+                <p>Premium apparel, loved by everyone.</p>
             </div>
 
-            <!-- Category Filter Section -->
+            <!-- Category Filter Buttons -->
             <div class="category-section" id="category-section">
                 <button class="category-btn active" data-category="all">All</button>
                 <button class="category-btn" data-category="shirts">Shirts</button>
@@ -70,20 +79,16 @@
                 <button class="category-btn" data-category="hoodies">Hoodies</button>
                 <button class="category-btn" data-category="polo shirts">Polo Shirts</button>
                 <button class="category-btn" data-category="formal shirts">Formal Shirts</button>
-                <button class="category-btn" data-category="other shirts">Other Shirts</button>
             </div>
 
+            <!-- Dynamic Product Grid -->
             <div class="product-grid" id="product-grid"></div>
         </section>
 
+        <!-- Promo Banner -->
         <section class="promo">
             <h2>Ready to Define Your Style?</h2>
-
-            <p>
-                Discover timeless fashion and elevate your everyday look
-                with us.
-            </p>
-
+            <p>Discover timeless fashion and elevate your everyday look with us.</p>
             <a href="#menu" class="btn">
                 Shop Collection
                 <i class="fa-solid fa-arrow-right"></i>
@@ -91,36 +96,11 @@
         </section>
     </main>
 
-    <!-- Product Details Modal -->
-    <div id="product-modal" class="modal-overlay" aria-hidden="true">
-        <div class="modal-content">
-            <button id="modal-close" class="modal-close-btn" type="button" aria-label="Close product details">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="modal-body">
-                <div class="modal-image">
-                    <img id="modal-img" src="" alt="">
-                </div>
-                <div class="modal-info">
-                    <span id="modal-category" class="tag"></span>
-                    <h2 id="modal-title"></h2>
-                    <p id="modal-description"></p>
-                    <div class="product-bottom" style="margin-top: 20px;">
-                        <span id="modal-price" class="price"></span>
-                        <button id="modal-add-btn" class="add-btn" type="button">
-                            <i class="fa-solid fa-bag-shopping"></i> Add to Bag
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Footer -->
     <footer>
         <a href="index.html" class="logo">
             <img src="images/logo.png" alt="ZIA Clothing Brand Logo">
         </a>
-
         <p>
             © 2026 ZIA. The Art of Dressing.
             Designed for those who define their own style.

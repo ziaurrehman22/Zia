@@ -4,13 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Your Cart | ZIA</title>
 
     <link rel="stylesheet" href="style.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
     <script src="script.js" defer></script>
 </head>
 
@@ -19,12 +16,12 @@
     <!-- Navbar -->
     <header class="navbar">
         <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="">
+            <img src="images/logo.png" alt="ZIA Logo">
         </a>
 
         <div class="nav-actions">
             <a href="cart.html" class="cart-link" style="font-family: sans-serif;">
-                <p> View Cart </p>
+                <p>View Cart</p>
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span id="cart-count">0</span>
             </a>
@@ -37,7 +34,6 @@
 
     <!-- Cart Page -->
     <main class="cart-page">
-
         <h1>
             <i class="fa-solid fa-bag-shopping"></i>
             Your Shopping Bag
@@ -48,14 +44,12 @@
         </p>
 
         <div class="cart-layout">
-
-            <!-- Cart Items -->
+            <!-- Cart Items Container (JavaScript will inject items & size dropdown here) -->
             <section id="cart-items" class="cart-items" aria-label="Cart items">
             </section>
 
             <!-- Order Summary -->
             <aside class="cart-summary">
-
                 <h2>Order Summary</h2>
 
                 <div class="summary-row">
@@ -73,15 +67,13 @@
                     <span id="total">Rs. 0</span>
                 </div>
 
-                <button class="btn full-btn" id="checkout-btn" type="button">
-
+                <button class="btn full-dir-btn full-btn" id="checkout-btn" type="button">
                     Proceed to Checkout
                     <i class="fa-solid fa-arrow-right"></i>
-
                 </button>
 
                 <p class="auth-switch">
-                    <a href="index.html#collection">
+                    <a href="index.html#menu">
                         <i class="fa-solid fa-arrow-left"></i>
                         Continue Shopping
                     </a>
@@ -89,7 +81,6 @@
 
                 <p id="checkout-message" class="message" role="status">
                 </p>
-
             </aside>
         </div>
     </main>
