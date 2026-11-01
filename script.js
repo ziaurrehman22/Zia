@@ -1,5 +1,5 @@
 /* ==========================================
-   ZIA CLOTHING - MAIN SCRIPT
+   ZIA CLOTHING - MAIN SCRIPT (WITH SWEETALERT2)
 ========================================== */
 
 /* 1. MIGRATE OLD CART DATA */
@@ -101,14 +101,6 @@ const products = [
         details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
     },
 ];
-
-
-// category: "jackets",
-// category: "hoodies",
-// category: "trousers",
-// category: "t-shirts",
-// category: "casual shirts",
-
 
 /* 3. HELPERS */
 function getCart() {
@@ -219,7 +211,7 @@ if (productGrid) {
     });
 }
 
-/* 5. ADD TO CART */
+/* 5. ADD TO CART WITH SWEETALERT */
 function addToCart(id, qty = 1, size = "M") {
     const product = products.find(item => item.id === id);
     if (!product) return;
@@ -240,13 +232,19 @@ function addToCart(id, qty = 1, size = "M") {
     saveCart(cart);
     updateCartCount();
 
-    const button = document.querySelector(`[data-add="${id}"]`);
-    if (button) {
-        const originalHTML = button.innerHTML;
-        button.innerHTML = '<i class="fa-solid fa-check"></i> Added';
-        setTimeout(() => {
-            button.innerHTML = originalHTML;
-        }, 1000);
+    // SweetAlert2 Success Toast Notification
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: `${product.name} (Size: ${size}) added to bag!`,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            background: 'var(--card)',
+            color: 'var(--white)'
+        });
     }
 }
 
@@ -296,7 +294,7 @@ function renderCart() {
                             ${availableSizes.map(sz => `<option value="${sz}" ${sz === (item.size || 'M') ? 'selected' : ''}>${sz}</option>`).join('')}
                         </select>
                     </div>
-                    <p>${money(item.price * item.quantity)}</p>
+                    <p class="cart-item-price">${money(item.price * item.quantity)}</p>
                     <div class="quantity">
                         <button data-change="-1" data-id="${item.id}" data-size="${item.size || 'M'}" type="button" aria-label="Decrease quantity">−</button>
                         <span>${item.quantity}</span>
@@ -322,7 +320,6 @@ function renderCart() {
 
 const cartItems = document.getElementById("cart-items");
 if (cartItems) {
-    // Handle size change directly from cart dropdown
     cartItems.addEventListener("change", event => {
         const selectElem = event.target.closest(".cart-size-select");
         if (!selectElem) return;
@@ -357,6 +354,17 @@ if (cartItems) {
             const id = Number(removeButton.dataset.remove);
             const size = removeButton.dataset.size;
             cart = cart.filter(product => !(product.id === id && product.size === size));
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Item removed from bag',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
         }
 
         saveCart(cart);
@@ -413,7 +421,7 @@ function initProductDetailPage() {
                 <h1 class="detail-title">${product.name}</h1>
                 <div class="detail-price-box">
                     <span class="detail-price">${money(product.price)}</span>
-                    <span class="stock-status" style="color: #27AE60;"><i class="fa-solid fa-check-circle"></i> In Stock</span>
+                    <span class="stock-status"><i class="fa-solid fa-check-circle"></i> In Stock</span>
                 </div>
 
                 <p class="detail-description">${product.description}</p>
@@ -424,7 +432,7 @@ function initProductDetailPage() {
                 </div>
 
                 <div class="detail-options">
-                    <label>Select Size: <strong id="selected-size-label" style="color: var(--orange);">${defaultSize}</strong></label>
+                    <label>Select Size: <strong id="selected-size-label" style="color: var(--accent);">${defaultSize}</strong></label>
                     <div class="size-selector" id="size-selector-group">
                         ${sizeButtonsHTML}
                     </div>
@@ -472,64 +480,81 @@ function initProductDetailPage() {
         }
     });
 
-    document.getElementById("add-to-bag-detail").addEventListener("click", (e) => {
+    document.getElementById("add-to-bag-detail").addEventListener("click", () => {
         const qty = parseInt(qtyInput.value) || 1;
         const checkedRadio = sizeGroup.querySelector("input[type='radio']:checked");
         const selectedSize = checkedRadio ? checkedRadio.value : defaultSize;
 
         addToCart(product.id, qty, selectedSize);
-
-        const origBtn = e.currentTarget.innerHTML;
-        e.currentTarget.innerHTML = `<i class="fa-solid fa-check"></i> Added (${selectedSize})!`;
-        setTimeout(() => {
-            e.currentTarget.innerHTML = origBtn;
-        }, 1200);
     });
 }
 
 document.addEventListener("DOMContentLoaded", initProductDetailPage);
 
-/* 9. WHATSAPP CHECKOUT & THANK YOU REDIRECT */
+/* 9. WHATSAPP CHECKOUT WITH SWEETALERT CONFIRMATION */
 const checkoutBtn = document.getElementById("checkout-btn");
 if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
-        const message = document.getElementById("checkout-message");
         const cart = getCart();
 
         if (cart.length === 0) {
-            if (message) message.textContent = "Your shopping bag is empty!";
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Your Bag Is Empty',
+                    text: 'Please add items to your shopping bag before proceeding to checkout.',
+                    confirmButtonColor: 'var(--accent)'
+                });
+            }
             return;
         }
 
-        const phoneNumber = "923710201700";
-        let orderText = "`Hello ZIA Clothing!` I would like to place this order:\n\n";
-
-        cart.forEach((item, index) => {
-            orderText += `${index + 1}. ${item.name} (Size: ${item.size || 'M'}) x ${item.quantity} - ${money(item.price * item.quantity)}\n`;
-        });
-
-        const subtotal = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity), 0);
-
-        orderText += `\nTotal Amount:*${money(subtotal)}*\n`;
-        orderText += "\nPlease confirm availability and delivery details.";
-        orderText += "\nHow much delivery charges?";
-        orderText += "\nThank you!";
-
-        const whatsappURL = `https://wa.me/${phoneNumber}?text=` + encodeURIComponent(orderText);
-        if (message) message.textContent = "Opening WhatsApp to review your order...";
-
-        // Open WhatsApp
-        const whatsappWindow = window.open(whatsappURL, "_blank");
-        if (!whatsappWindow) {
-            window.location.href = whatsappURL;
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                title: 'Proceed to WhatsApp?',
+                text: 'Your order details will be prepared for instant confirmation via WhatsApp.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#25D366',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Open WhatsApp'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    executeWhatsAppCheckout(cart);
+                }
+            });
+        } else {
+            executeWhatsAppCheckout(cart);
         }
-
-        // Clear Cart and Redirect to Thank You page after successful trigger
-        setTimeout(() => {
-            localStorage.removeItem("ziaCart");
-            window.location.href = "thank-you.html";
-        }, 1500);
     });
+}
+
+function executeWhatsAppCheckout(cart) {
+    const phoneNumber = "923710201700";
+    let orderText = "`Hello ZIA Clothing!` I would like to place this order:\n\n";
+
+    cart.forEach((item, index) => {
+        orderText += `${index + 1}. ${item.name} (Size: ${item.size || 'M'}) x ${item.quantity} - ${money(item.price * item.quantity)}\n`;
+    });
+
+    const subtotal = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity), 0);
+
+    orderText += `\nTotal Amount:*${money(subtotal)}*\n`;
+    orderText += "\nPlease confirm availability and delivery details.";
+    orderText += "\nHow much delivery charges?";
+    orderText += "\nThank you!";
+
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=` + encodeURIComponent(orderText);
+
+    const whatsappWindow = window.open(whatsappURL, "_blank");
+    if (!whatsappWindow) {
+        window.location.href = whatsappURL;
+    }
+
+    setTimeout(() => {
+        localStorage.removeItem("ziaCart");
+        window.location.href = "thank-you.html";
+    }, 1500);
 }
 
 /* 10. INITIALIZATION & THEME */
