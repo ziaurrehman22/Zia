@@ -81,7 +81,7 @@ const products = [
         details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
     },
     {
-        id: 5,
+        id: 6,
         name: "Textured Cotton Polo",
         price: 2100,
         category: "polo shirts",
@@ -91,7 +91,7 @@ const products = [
         details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
     },
     {
-        id: 5,
+        id: 7,
         name: "Textured Cotton Polo",
         price: 2100,
         category: "polo shirts",
@@ -489,7 +489,7 @@ function initProductDetailPage() {
 
 document.addEventListener("DOMContentLoaded", initProductDetailPage);
 
-/* 9. WHATSAPP CHECKOUT */
+/* 9. WHATSAPP CHECKOUT & THANK YOU REDIRECT */
 const checkoutBtn = document.getElementById("checkout-btn");
 if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
@@ -497,7 +497,7 @@ if (checkoutBtn) {
         const cart = getCart();
 
         if (cart.length === 0) {
-            message.textContent = "Your shopping bag is empty!";
+            if (message) message.textContent = "Your shopping bag is empty!";
             return;
         }
 
@@ -516,10 +516,19 @@ if (checkoutBtn) {
         orderText += "\nThank you!";
 
         const whatsappURL = `https://wa.me/${phoneNumber}?text=` + encodeURIComponent(orderText);
-        message.textContent = "Opening WhatsApp to review your order...";
+        if (message) message.textContent = "Opening WhatsApp to review your order...";
 
+        // Open WhatsApp
         const whatsappWindow = window.open(whatsappURL, "_blank");
-        if (!whatsappWindow) window.location.href = whatsappURL;
+        if (!whatsappWindow) {
+            window.location.href = whatsappURL;
+        }
+
+        // Clear Cart and Redirect to Thank You page after successful trigger
+        setTimeout(() => {
+            localStorage.removeItem("ziaCart");
+            window.location.href = "thank-you.html";
+        }, 1500);
     });
 }
 

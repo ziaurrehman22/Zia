@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart | ZIA</title>
+    <title>Your Shopping Bag | ZIA Clothing</title>
+    <meta name="description" content="Review your selected items and proceed securely to checkout with ZIA Clothing.">
+    
+    <meta property="og:title" content="Your Shopping Bag | ZIA Clothing">
+    <meta property="og:description" content="Review your selected items and proceed securely to checkout.">
+    <meta property="og:image" content="https://yourdomain.com/images/logo.png">
+    <meta property="og:url" content="https://yourdomain.com/cart.html">
+    <meta property="og:type" content="website">
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <script src="script.js" defer></script>
 </head>
-
 <body>
 
     <!-- Navbar -->
@@ -18,14 +23,17 @@
         <a href="index.html" class="logo">
             <img src="images/logo.png" alt="ZIA Logo">
         </a>
-
+        <nav class="nav-links" style="display: flex; gap: 20px; align-items: center;">
+            <a href="index.html">Home</a>
+            <a href="faq.html">FAQ</a>
+            <a href="privacy-policy.html">Privacy Policy</a>
+        </nav>
         <div class="nav-actions">
             <a href="cart.html" class="cart-link" style="font-family: sans-serif;">
                 <p>View Cart</p>
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span id="cart-count">0</span>
             </a>
-
             <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light theme" type="button">
                 <i class="fa-solid fa-moon"></i>
             </button>
@@ -44,32 +52,26 @@
         </p>
 
         <div class="cart-layout">
-            <!-- Cart Items Container (JavaScript will inject items & size dropdown here) -->
-            <section id="cart-items" class="cart-items" aria-label="Cart items">
-            </section>
+            <section id="cart-items" class="cart-items" aria-label="Cart items"></section>
 
-            <!-- Order Summary -->
             <aside class="cart-summary">
                 <h2>Order Summary</h2>
-
                 <div class="summary-row">
                     <span>Subtotal</span>
                     <span id="subtotal">Rs. 0</span>
                 </div>
-
                 <div class="summary-row">
                     <span>Delivery Type</span>
                     <span>COD</span>
                 </div>
-
                 <div class="summary-row summary-total">
                     <span>Total</span>
                     <span id="total">Rs. 0</span>
                 </div>
 
                 <button class="btn full-dir-btn full-btn" id="checkout-btn" type="button">
-                    Proceed to Checkout
-                    <i class="fa-solid fa-arrow-right"></i>
+                    Proceed to Checkout via WhatsApp
+                    <i class="fa-brands fa-whatsapp"></i>
                 </button>
 
                 <p class="auth-switch">
@@ -78,25 +80,19 @@
                         Continue Shopping
                     </a>
                 </p>
-
-                <p id="checkout-message" class="message" role="status">
-                </p>
+                <p id="checkout-message" class="message" role="status"></p>
             </aside>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer>
         <a href="index.html" class="logo">
             <img src="images/logo.png" alt="ZIA Clothing Brand Logo">
         </a>
-
-        <p>
-            © 2026 ZIA. The Art of Dressing.
-            Designed for those who define their own style.
-        </p>
+        <div style="display: flex; gap: 15px; margin: 10px 0;">
+            <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy-policy.html">Privacy Policy</a>
+        </div>
+        <p>© 2026 ZIA. The Art of Dressing.</p>
     </footer>
-
 </body>
-
 </html>
