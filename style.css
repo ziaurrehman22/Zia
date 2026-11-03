@@ -161,6 +161,25 @@ img {
     transform: scale(1.04);
 }
 
+.open-camera-btn {
+    background: var(--soft-blue);
+    border: 1px solid var(--border);
+    color: var(--white);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.open-camera-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: rotate(15deg);
+}
+
 .nav-actions {
     display: flex;
     align-items: center;
@@ -1409,6 +1428,12 @@ footer p {
         gap: 12px !important;
     }
 
+    .open-camera-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+    }
+
     .qty-picker,
     .add-to-bag-btn {
         width: 100% !important;
@@ -1476,6 +1501,12 @@ footer p {
     .product-detail-page,
     .cart-page {
         padding: 30px 12px;
+    }
+
+    .open-camera-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 12px;
     }
 
     .main-image-box {
