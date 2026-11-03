@@ -68,19 +68,27 @@
             <!-- Left Side: Dynamic Items List -->
             <section id="cart-items" class="cart-items" aria-label="Cart items"></section>
 
-            <!-- Right Side: Detailed Summary Card -->
+            <!-- Right Side: Detailed Summary Card inside cart.html -->
             <aside class="cart-summary">
                 <h2>Order Summary</h2>
+
+                <!-- Customer Details Form -->
+                <div class="checkout-form" style="margin-bottom: 20px; display: grid; gap: 12px;">
+                    <h4 style="font-size: 14px; color: var(--white); margin-bottom: -4px;">Shipping Details</h4>
+                    <input type="text" id="customer-name" placeholder="Full Name *" required
+                        style="padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--white); font-size: 13px;">
+                    <input type="tel" id="customer-phone" placeholder="Phone Number (e.g. 03001234567) *" required
+                        style="padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--white); font-size: 13px;">
+                    <textarea id="customer-address" placeholder="Complete Delivery Address (House, Street, City) *"
+                        rows="2" required
+                        style="padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--white); font-size: 13px; resize: none;"></textarea>
+                </div>
 
                 <div class="summary-details">
                     <div class="summary-row">
                         <span>Items Subtotal</span>
                         <span id="subtotal">Rs. 0</span>
                     </div>
-                    <!-- <div class="summary-row">
-                        <span>Estimated Shipping</span>
-                        <span class="free-badge">Calculated at Checkout</span>
-                    </div> -->
                     <div class="summary-row">
                         <span>Payment Method</span>
                         <span style="font-weight: 600; color: var(--white);">Cash On Delivery (COD)</span>
@@ -92,35 +100,15 @@
                 </div>
 
                 <button class="btn full-btn checkout-btn" id="checkout-btn" type="button">
-                    <span>Order via WhatsApp</span>
-                    <i class="fa-brands fa-whatsapp"></i>
+                    <span>Confirm Order</span>
+                    <!-- <i class="fa-brands fa-whatsapp"></i> -->
                 </button>
-
-                <p id="checkout-message" class="message" role="status"></p>
-
-                <a href="index.html#menu" class="continue-shopping">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Continue Shopping
-                </a>
-
-                <!-- Trust Badges -->
-                <div class="cart-trust-features">
-                    <div class="trust-item">
-                        <i class="fa-solid fa-truck-fast"></i>
-                        <div>
-                            <h4>Fast Delivery</h4>
-                            <p>3-5 Working Days Pakistan Wide</p>
-                        </div>
-                    </div>
-                    <div class="trust-item">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <div>
-                            <h4>100% Authentic</h4>
-                            <p>Guaranteed Premium Quality Fabric</p>
-                        </div>
-                    </div>
-                </div>
-            </aside>
+                
+                <button class="btn full-btn reset-cart-btn" id="reset-cart-btn" type="button"
+                    style="background: var(--danger); border-color: var(--danger); margin-top: 10px;">
+                    <span>Reset Cart</span>
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
         </div>
     </main>
 

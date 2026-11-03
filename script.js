@@ -248,7 +248,7 @@ function addToCart(id, qty = 1, size = "M") {
     }
 }
 
-/* 6. UPDATE CART COUNT */
+/* 6. UPDATE CART COUNT WITH ANIMATION */
 function updateCartCount() {
     const count = document.getElementById("cart-count");
     if (!count) return;
@@ -259,6 +259,11 @@ function updateCartCount() {
     );
 
     count.textContent = totalQuantity;
+
+    // Visual animation trigger when count updates
+    count.classList.remove("badge-animate");
+    void count.offsetWidth; // Trigger reflow
+    count.classList.add("badge-animate");
 }
 
 /* 7. CART PAGE RENDER WITH SIZE CHANGING DROPDOWN */
@@ -410,10 +415,7 @@ function initProductDetailPage() {
                 <div class="main-image-box">
                     <img id="detail-main-img" src="${product.image}" alt="${product.name}">
                 </div>
-                <div class="thumbnail-list">
-                    <img class="thumb active" src="${product.image}" alt="${product.name}">
-                    <img class="thumb" src="${product.image}" alt="${product.name} view 2">
-                </div>
+
             </div>
 
             <div class="detail-info">
@@ -491,7 +493,7 @@ function initProductDetailPage() {
 
 document.addEventListener("DOMContentLoaded", initProductDetailPage);
 
-/* 9. WHATSAPP CHECKOUT WITH SWEETALERT CONFIRMATION */
+/* 9. WHATSAPP CHECKOUT WITH CUSTOMER DETAILS */
 const checkoutBtn = document.getElementById("checkout-btn");
 if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
@@ -509,6 +511,24 @@ if (checkoutBtn) {
             return;
         }
 
+        // Get customer form input values
+        const name = document.getElementById("customer-name")?.value.trim();
+        const phone = document.getElementById("customer-phone")?.value.trim();
+        const address = document.getElementById("customer-address")?.value.trim();
+
+        // Validate form fields
+        if (!name || !phone || !address) {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Missing Information',
+                    text: 'Please fill in your Name, Phone Number, and Delivery Address before ordering.',
+                    confirmButtonColor: 'var(--accent)'
+                });
+            }
+            return;
+        }
+
         if (typeof Swal !== 'undefined') {
             Swal.fire({
                 title: 'Proceed to WhatsApp?',
@@ -520,29 +540,35 @@ if (checkoutBtn) {
                 confirmButtonText: 'Yes, Open WhatsApp'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    executeWhatsAppCheckout(cart);
+                    executeWhatsAppCheckout(cart, { name, phone, address });
                 }
             });
         } else {
-            executeWhatsAppCheckout(cart);
+            executeWhatsAppCheckout(cart, { name, phone, address });
         }
     });
 }
 
-function executeWhatsAppCheckout(cart) {
+function executeWhatsAppCheckout(cart, customer) {
     const phoneNumber = "923710201700";
-    let orderText = "`Hello ZIA Clothing!` I would like to place this order:\n\n";
+    let orderText = "`Hello ZIA Clothing!` I would like to place a new order:\n\n";
 
+    orderText += `*Customer Details:*\n`;
+    orderText += `• Name: ${customer.name}\n`;
+    orderText += `• Phone: ${customer.phone}\n`;
+    orderText += `• Address: ${customer.address}\n\n`;
+
+    orderText += `*Order Items:*\n`;
     cart.forEach((item, index) => {
         orderText += `${index + 1}. ${item.name} (Size: ${item.size || 'M'}) x ${item.quantity} - ${money(item.price * item.quantity)}\n`;
     });
 
     const subtotal = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity), 0);
 
-    orderText += `\nTotal Amount:*${money(subtotal)}*\n`;
-    orderText += "\nPlease confirm availability and delivery details.";
-    orderText += "\nHow much delivery charges?";
-    orderText += "\nThank you!";
+    orderText += `\n*Total Amount:* ${money(subtotal)}\n`;
+    orderText += `• Payment: Cash on Delivery (COD)\n\n`;
+    orderText += `• Delivery charges are not included in the price.\n\n`;
+    orderText += `Please confirm my order. Thank you!`;
 
     const whatsappURL = `https://wa.me/${phoneNumber}?text=` + encodeURIComponent(orderText);
 
@@ -587,3 +613,123 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+
+/* 11. RESET / CLEAR CART FUNCTIONALITY */
+const resetCartBtn = document.getElementById("reset-cart-btn");
+
+if (resetCartBtn) {
+    resetCartBtn.addEventListener("click", () => {
+        const cart = getCart();
+
+        if (cart.length === 0) {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Your Bag Is Empty',
+                    text: 'Your shopping bag is already empty.',
+                    confirmButtonColor: 'var(--accent)'
+                });
+            }
+            return;
+        }
+
+        // SweetAlert2 Confirmation Dialog
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                title: 'Reset Shopping Bag?',
+                text: 'Are you sure you want to reset your cart?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#E05A47',
+                cancelButtonColor: '#727D73',
+                confirmButtonText: 'Yes, Reset Cart',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    clearCartData();
+                }
+            });
+        } else {
+            if (confirm("Are you sure you want to reset your cart?")) {
+                clearCartData();
+            }
+        }
+    });
+}
+
+function clearCartData() {
+    localStorage.removeItem("ziaCart");
+    renderCart(); // Cart ko refresh karega
+    updateCartCount(); // Count 0 kar dega
+
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Item removed from bag',
+            showConfirmButton: false,
+            timer: 1800,
+            timerProgressBar: true
+        });
+    }
+}
+
+/* LIVE CAMERA TRY-ON MODAL CONTROLLER */
+const openCameraBtn = document.getElementById("open-camera-btn");
+const cameraModal = document.getElementById("camera-modal");
+const closeCameraBtn = document.getElementById("close-camera-btn");
+const videoElement = document.getElementById("live-camera-feed");
+let mediaStream = null;
+
+if (openCameraBtn && cameraModal) {
+    openCameraBtn.addEventListener("click", async () => {
+        cameraModal.style.display = "flex";
+        try {
+            // Request front camera access
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: "user" },
+                audio: false
+            });
+            videoElement.srcObject = mediaStream;
+        } catch (error) {
+            console.error("Camera access denied or not supported:", error);
+            cameraModal.style.display = "none";
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Camera Access Required',
+                    text: 'Please allow camera permissions in your browser to use the live trial feature.',
+                    confirmButtonColor: 'var(--accent)'
+                });
+            } else {
+                alert("Camera access denied or not supported.");
+            }
+        }
+    });
+
+    closeCameraBtn.addEventListener("click", () => {
+        stopCameraStream();
+    });
+
+    // Close modal if clicked outside the box
+    cameraModal.addEventListener("click", (e) => {
+        if (e.target === cameraModal) {
+            stopCameraStream();
+        }
+    });
+}
+
+function stopCameraStream() {
+    if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+    }
+    if (videoElement) {
+        videoElement.srcObject = null;
+    }
+    if (cameraModal) {
+        cameraModal.style.display = "none";
+    }
+}
