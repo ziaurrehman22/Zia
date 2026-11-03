@@ -675,41 +675,27 @@ function clearCartData() {
         });
     }
 }
+
+
 /* ==========================================================================
-   LIVE CAMERA, FILTERS & FLASH CONTROLLER
+   ADVANCED LIVE CAMERA, SWITCHER, FILTERS & FLASH CONTROLLER
    ========================================================================== */
 const openCameraBtn = document.getElementById("open-camera-btn");
 const cameraModal = document.getElementById("camera-modal");
 const closeCameraBtn = document.getElementById("close-camera-btn");
 const videoElement = document.getElementById("live-camera-feed");
+const switchCameraBtn = document.getElementById("switch-camera-btn");
 const flashToggleBtn = document.getElementById("flash-toggle-btn");
+
 let mediaStream = null;
+let useFrontCamera = true; // Default front camera (user)
 let flashState = false;
+let currentFilter = "none";
 
 if (openCameraBtn && cameraModal) {
     openCameraBtn.addEventListener("click", async () => {
         cameraModal.style.display = "flex";
-        try {
-            // Request front camera access (defaults to user)
-            mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "user" },
-                audio: false
-            });
-            videoElement.srcObject = mediaStream;
-        } catch (error) {
-            console.error("Camera access denied or not supported:", error);
-            cameraModal.style.display = "none";
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Camera Access Required',
-                    text: 'Please allow camera permissions in your browser to use the live trial feature.',
-                    confirmButtonColor: 'var(--accent)'
-                });
-            } else {
-                alert("Camera access denied or not supported.");
-            }
-        }
+        await startCameraStream();
     });
 
     closeCameraBtn.addEventListener("click", () => {
@@ -724,47 +710,89 @@ if (openCameraBtn && cameraModal) {
     });
 }
 
+// Function to start or switch camera stream
+async function startCameraStream() {
+    try {
+        // Stop existing stream if running
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+        }
+
+        const constraints = {
+            video: {
+                facingMode: useFrontCamera ? "user" : { exact: "environment" }
+            },
+            audio: false
+        };
+
+        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+        videoElement.srcObject = mediaStream;
+        videoElement.style.filter = currentFilter;
+    } catch (error) {
+        console.error("Camera access error:", error);
+        // Fallback agar 'exact: environment' support na kare
+        try {
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: useFrontCamera ? "user" : "environment" },
+                audio: false
+            });
+            videoElement.srcObject = mediaStream;
+            videoElement.style.filter = currentFilter;
+        } catch (err) {
+            cameraModal.style.display = "none";
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Camera Access Error',
+                    text: 'Unable to access camera or switch lens on this device.',
+                    confirmButtonColor: 'var(--accent)'
+                });
+            }
+        }
+    }
+}
+
+/* Switch Front / Back Camera */
+if (switchCameraBtn) {
+    switchCameraBtn.addEventListener("click", async () => {
+        useFrontCamera = !useFrontCamera;
+        flashState = false; // Reset flash on switch
+        if (flashToggleBtn) {
+            flashToggleBtn.style.background = "var(--soft-blue)";
+            flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: Off`;
+        }
+        await startCameraStream();
+    });
+}
+
 /* Filter Buttons Click Event Listener */
 document.addEventListener("click", (e) => {
     const filterBtn = e.target.closest(".filter-btn");
     if (!filterBtn || !videoElement) return;
 
-    // Active class/style toggle karo filter buttons par
     document.querySelectorAll(".filter-btn").forEach(btn => {
         btn.style.background = "var(--soft-blue)";
     });
     filterBtn.style.background = "var(--accent)";
 
-    // Video par CSS filter apply karo
-    const selectedFilter = filterBtn.dataset.filter;
-    videoElement.style.filter = selectedFilter;
+    currentFilter = filterBtn.dataset.filter;
+    videoElement.style.filter = currentFilter;
 });
 
 /* Flash / Torch Toggle Controller */
 if (flashToggleBtn) {
     flashToggleBtn.addEventListener("click", async () => {
-        if (!mediaStream) {
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Camera Not Active',
-                    text: 'Please open the camera first to use the flash.',
-                    confirmButtonColor: 'var(--accent)'
-                });
-            }
-            return;
-        }
+        if (!mediaStream) return;
 
         const track = mediaStream.getVideoTracks()[0];
         const capabilities = track.getCapabilities ? track.getCapabilities() : {};
 
-        // Check if device supports torch/flash (usually requires rear/back camera)
         if (!capabilities.torch) {
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     icon: 'info',
                     title: 'Not Supported',
-                    text: 'Flashlight is not supported on this camera/device (often requires rear camera selection).',
+                    text: 'Flashlight requires the back/rear camera on supported mobile devices.',
                     confirmButtonColor: 'var(--accent)'
                 });
             }
@@ -777,7 +805,6 @@ if (flashToggleBtn) {
                 advanced: [{ torch: flashState }]
             });
 
-            // Update Flash Button UI
             if (flashState) {
                 flashToggleBtn.style.background = "var(--accent)";
                 flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: On`;
@@ -787,34 +814,35 @@ if (flashToggleBtn) {
             }
         } catch (error) {
             console.error("Error toggling flash:", error);
-            flashState = !flashState; // Revert state on error
+            flashState = !flashState;
         }
     });
 }
 
 function stopCameraStream() {
     if (mediaStream) {
-        // Turn off flash before closing if it was active
         const track = mediaStream.getVideoTracks()[0];
         if (track && track.applyConstraints) {
             track.applyConstraints({ advanced: [{ torch: false }] }).catch(() => { });
         }
-
         mediaStream.getTracks().forEach(track => track.stop());
         mediaStream = null;
     }
 
     if (videoElement) {
         videoElement.srcObject = null;
-        videoElement.style.filter = "none"; // Reset filter
+        videoElement.style.filter = "none";
     }
 
     if (cameraModal) {
         cameraModal.style.display = "none";
     }
 
-    // Reset Flash and Filter UI states
+    // Reset UI states
+    useFrontCamera = true;
     flashState = false;
+    currentFilter = "none";
+
     if (flashToggleBtn) {
         flashToggleBtn.style.background = "var(--soft-blue)";
         flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: Off`;
