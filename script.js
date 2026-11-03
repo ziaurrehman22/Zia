@@ -508,7 +508,7 @@ if (checkoutBtn) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Missing Information',
-                    text: 'Please fill in your Name, Phone Number, and Delivery Address before ordering.',
+                    text: 'Please fill your Name, Phone Number, and Delivery Address before Ordering.',
                     confirmButtonColor: 'var(--accent)'
                 });
             }
