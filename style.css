@@ -5,39 +5,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg: #F8F9FA;
-    --card: #FFFFFF;
-    --orange: #111111;
-    --orange-dark: #2C2C2C;
-    --accent: #C5A059;
-    --white: #1A1A1A;
-    --muted: #666666;
-    --border: #E8E8E8;
-    --shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
-    --danger: #D9534F;
-    --soft-blue: #F3F4F6;
+    --bg: #FAFAF7;                  /* Warm off-white / Linen tone */
+    --card: #FFFFFF;               /* Clean white surface */
+    --orange: #2A363B;             /* Deep slate charcoal main accent */
+    --orange-dark: #1E272C;        /* Darker slate hover state */
+    --accent: #52796F;             /* Elegant sage green highlight */
+    --white: #1C2526;              /* Dark charcoal text for readability */
+    --muted: #727D73;              /* Soft earthy gray-green */
+    --border: #E8ECE9;             /* Light subtle border */
+    --shadow: 0 10px 30px rgba(42, 54, 59, 0.06);
+    --danger: #E05A47;             /* Muted terracota red */
+    --soft-blue: #F0F4F1;          /* Soft sage tint background */
     --pure-white: #FFFFFF;
     --input-bg: #FFFFFF;
-    --input-placeholder: #A0A0A0;
-    --footer-text: #888888;
+    --input-placeholder: #9EAB9C;
+    --footer-text: #727D73;
 }
 
 [data-theme="dark"] {
-    --bg: #0F0F11;
-    --card: #16161A;
-    --orange: #C5A059;
-    --orange-dark: #D4B06A;
-    --accent: #D4AF37;
-    --white: #F0F0F0;
-    --muted: #A0A0A0;
-    --border: #26262B;
-    --shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-    --danger: #E06C6C;
-    --soft-blue: #1C1C22;
-    --pure-white: #16161A;
-    --input-bg: #121215;
-    --input-placeholder: #666666;
-    --footer-text: #999999;
+    --bg: #121614;                 /* Deep forest obsidian */
+    --card: #1A201C;               /* Muted dark sage-card */
+    --orange: #84A98C;             /* Light sage green primary text/buttons */
+    --orange-dark: #6B9080;        /* Deeper sage hover state */
+    --accent: #A3B18A;             /* Soft olive gold glow */
+    --white: #F4F6F0;              /* Soft off-white high contrast text */
+    --muted: #8F9E8B;              /* Soft muted green-gray */
+    --border: #26302A;             /* Subtle dark green border */
+    --shadow: 0 16px 45px rgba(0, 0, 0, 0.6);
+    --danger: #E57373;             /* Softened red for dark mode */
+    --soft-blue: #18221D;          /* Deep dark tint surface */
+    --pure-white: #1A201C;
+    --input-bg: #141A16;
+    --input-placeholder: #5C6B5E;
+    --footer-text: #8F9E8B;
 }
 
 * {
