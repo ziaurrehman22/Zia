@@ -675,19 +675,22 @@ function clearCartData() {
         });
     }
 }
-
-/* LIVE CAMERA TRY-ON MODAL CONTROLLER */
+/* ==========================================================================
+   LIVE CAMERA, FILTERS & FLASH CONTROLLER
+   ========================================================================== */
 const openCameraBtn = document.getElementById("open-camera-btn");
 const cameraModal = document.getElementById("camera-modal");
 const closeCameraBtn = document.getElementById("close-camera-btn");
 const videoElement = document.getElementById("live-camera-feed");
+const flashToggleBtn = document.getElementById("flash-toggle-btn");
 let mediaStream = null;
+let flashState = false;
 
 if (openCameraBtn && cameraModal) {
     openCameraBtn.addEventListener("click", async () => {
         cameraModal.style.display = "flex";
         try {
-            // Request front camera access
+            // Request front camera access (defaults to user)
             mediaStream = await navigator.mediaDevices.getUserMedia({
                 video: { facingMode: "user" },
                 audio: false
@@ -721,15 +724,103 @@ if (openCameraBtn && cameraModal) {
     });
 }
 
+/* Filter Buttons Click Event Listener */
+document.addEventListener("click", (e) => {
+    const filterBtn = e.target.closest(".filter-btn");
+    if (!filterBtn || !videoElement) return;
+
+    // Active class/style toggle karo filter buttons par
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.style.background = "var(--soft-blue)";
+    });
+    filterBtn.style.background = "var(--accent)";
+
+    // Video par CSS filter apply karo
+    const selectedFilter = filterBtn.dataset.filter;
+    videoElement.style.filter = selectedFilter;
+});
+
+/* Flash / Torch Toggle Controller */
+if (flashToggleBtn) {
+    flashToggleBtn.addEventListener("click", async () => {
+        if (!mediaStream) {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Camera Not Active',
+                    text: 'Please open the camera first to use the flash.',
+                    confirmButtonColor: 'var(--accent)'
+                });
+            }
+            return;
+        }
+
+        const track = mediaStream.getVideoTracks()[0];
+        const capabilities = track.getCapabilities ? track.getCapabilities() : {};
+
+        // Check if device supports torch/flash (usually requires rear/back camera)
+        if (!capabilities.torch) {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Not Supported',
+                    text: 'Flashlight is not supported on this camera/device (often requires rear camera selection).',
+                    confirmButtonColor: 'var(--accent)'
+                });
+            }
+            return;
+        }
+
+        try {
+            flashState = !flashState;
+            await track.applyConstraints({
+                advanced: [{ torch: flashState }]
+            });
+
+            // Update Flash Button UI
+            if (flashState) {
+                flashToggleBtn.style.background = "var(--accent)";
+                flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: On`;
+            } else {
+                flashToggleBtn.style.background = "var(--soft-blue)";
+                flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: Off`;
+            }
+        } catch (error) {
+            console.error("Error toggling flash:", error);
+            flashState = !flashState; // Revert state on error
+        }
+    });
+}
+
 function stopCameraStream() {
     if (mediaStream) {
+        // Turn off flash before closing if it was active
+        const track = mediaStream.getVideoTracks()[0];
+        if (track && track.applyConstraints) {
+            track.applyConstraints({ advanced: [{ torch: false }] }).catch(() => { });
+        }
+
         mediaStream.getTracks().forEach(track => track.stop());
         mediaStream = null;
     }
+
     if (videoElement) {
         videoElement.srcObject = null;
+        videoElement.style.filter = "none"; // Reset filter
     }
+
     if (cameraModal) {
         cameraModal.style.display = "none";
     }
+
+    // Reset Flash and Filter UI states
+    flashState = false;
+    if (flashToggleBtn) {
+        flashToggleBtn.style.background = "var(--soft-blue)";
+        flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: Off`;
+    }
+
+    document.querySelectorAll(".filter-btn").forEach((btn, idx) => {
+        btn.style.background = idx === 0 ? "var(--accent)" : "var(--soft-blue)";
+    });
 }
