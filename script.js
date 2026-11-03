@@ -232,20 +232,6 @@ function addToCart(id, qty = 1, size = "M") {
     saveCart(cart);
     updateCartCount();
 
-    // SweetAlert2 Success Toast Notification
-    if (typeof Swal !== 'undefined') {
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: `${product.name} (Size: ${size}) added to bag!`,
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            background: 'var(--card)',
-            color: 'var(--white)'
-        });
-    }
 }
 
 /* 6. UPDATE CART COUNT WITH ANIMATION */
