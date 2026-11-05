@@ -20,6 +20,12 @@
             <img src="images/logo.png" alt="ZIA Logo">
         </a>
 
+        <nav class="nav-links-desktop">
+            <a href="index.html">Home</a>
+            <a href="#menu">Collection</a>
+            <a href="faq.html">FAQ</a>
+        </nav>
+
         <div class="nav-actions">
             <a href="cart.html" class="cart-link">
                 <i class="fa-solid fa-bag-shopping"></i>
@@ -33,44 +39,93 @@
     </header>
 
     <!-- Main Content -->
-    <main><!-- Hero Section with Full-Width Video Background -->
-        <section class="hero">
-            <div class="hero-video-wrapper">
-                <video autoplay muted loop playsinline class="hero-video"
-                    style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+    <main>
+        <!-- Hero Section with Full-Width Video Background -->
+        <section class="hero-v2">
+            <!-- Background Video with Gradient Overlay -->
+            <div class="hero-media-container">
+                <video autoplay muted loop playsinline class="hero-bg-video">
                     <source src="images/hero-video.mp4" type="video/mp4">
                 </video>
-                <div class="hero-video-overlay"></div>
+                <div class="hero-gradient-overlay"></div>
             </div>
 
-            <div class="hero-content">
-                <span class="tag">TIMELESS • ELEGANT • PREMIUM</span>
-                <h1>Wear Your<br><span>Own Style.</span></h1>
-                <p style="color: white;">
-                    Discover premium shirts, trousers, and everyday essentials
-                    designed for effortless style, comfort, and confidence.
-                </p>
-                <a href="#menu" class="btn">
-                    Explore Collection
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
+            <div class="hero-container">
+                <!-- Main Brand Content -->
+                <div class="hero-main-content">
+                    <div class="brand-badge">
+                        <span class="badge-dot"></span>
+                        <span>NEW COLLECTION 2026</span>
+                    </div>
 
-            <div class="hero-image">
-                <div class="food-circle"></div>
-                <img src="images/hero.jfif" alt="The Art of Dressing">
+                    <h1 class="hero-title">
+                        The Art Of <br>
+                        <span class="highlight-text">Dressing.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Elevate your everyday wardrobe with premium tailored shirts, trousers,
+                        and luxury essentials crafted for effortless elegance.
+                    </p>
+
+                    <div class="hero-action-group">
+                        <a href="#menu" class="btn-primary">
+                            <span>Explore Collection</span>
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </a>
+                        <!-- <a href="#trending" class="btn-secondary">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Watch Lookbook</span>
+                        </a> -->
+                    </div>
+
+                    <!-- Trust / Highlights Stats -->
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h4>100%</h4>
+                            <p>Pure Cotton</p>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <h4>Premium</h4>
+                            <p>Tailored Fit</p>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <h4>Express</h4>
+                            <p>Shipping</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Product Spotlight Floating Card -->
+                <div class="hero-spotlight-card">
+                    <div class="spotlight-image-wrapper">
+                        <span class="spotlight-tag">Featured</span>
+                        <img src="images/hero.jfif" alt="Featured Outfit">
+                    </div>
+                    <div class="spotlight-details">
+                        <div class="spotlight-info">
+                            <h3>Signature Collection</h3>
+                            <p>Handcrafted Essentials</p>
+                        </div>
+                        <a href="#menu" class="spotlight-arrow">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Collection / Menu Section -->
         <section class="menu section" id="menu">
-            <div class="section-heading">
+            <div class="section-heading scroll-reveal">
                 <h2>Create Your <span>Style</span></h2>
                 <p>Premium apparel, loved by everyone.</p>
             </div>
 
             <!-- Category Filter Buttons -->
-            <div class="category-section" id="category-section">
+            <div class="category-section scroll-reveal" id="category-section">
                 <button class="category-btn active" data-category="all">All</button>
                 <button class="category-btn" data-category="hoodies">Hoodies</button>
                 <button class="category-btn" data-category="formal shirts">Formal Shirts</button>
@@ -85,7 +140,7 @@
         </section>
 
         <!-- Promo Banner -->
-        <section class="promo">
+        <section class="promo scroll-reveal">
             <h2>Ready to Define Your Style?</h2>
             <p>Discover timeless fashion and elevate your everyday look with us.</p>
             <a href="#menu" class="btn">
@@ -105,6 +160,24 @@
         </div>
         <p>© 2026 ZIA. The Art of Dressing.</p>
     </footer>
+
+    <!-- QUICK VIEW MODAL CONTAINER -->
+    <div id="quick-view-modal" class="qv-modal-backdrop">
+        <div class="qv-modal-card">
+            <button id="qv-close-btn" class="qv-close-btn" type="button" aria-label="Close modal">&times;</button>
+            <div id="qv-modal-content" class="qv-modal-body">
+                <!-- Dynamic content injected by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <a href="https://wa.me/923710201700" target="_blank" class="wa-float-btn" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button id="backToTop" class="back-to-top" aria-label="Back to Top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
 </body>
 

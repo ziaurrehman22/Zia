@@ -8,35 +8,41 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header class="navbar">
         <a href="index.html" class="logo"><img src="images/logo.png" alt="ZIA Logo"></a>
-        <nav class="nav-links" style="display: flex; gap: 20px; align-items: center;">
+        <nav class="nav-links-desktop">
             <a href="index.html">Home</a>
             <a href="cart.html">Cart</a>
             <a href="privacy-policy.html">Privacy Policy</a>
         </nav>
+        <div class="nav-actions">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light theme" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
     </header>
 
     <main class="section" style="max-width: 800px; margin: 0 auto;">
-        <div class="section-heading">
+        <div class="section-heading scroll-reveal">
             <h2>Frequently Asked <span>Questions</span></h2>
             <p>Got questions? We've got answers.</p>
         </div>
 
         <div style="display: grid; gap: 20px;">
-            <div style="background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
-                <h3 style="color: var(--white); margin-bottom: 8px;">1. What is the delivery time?</h3>
-                <p style="color: var(--muted); font-size: 14px;">Standard delivery takes 3 to 5 working days across Pakistan.</p>
+            <div class="scroll-reveal" style="background: var(--card); padding: 24px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow);">
+                <h3 style="color: var(--white); margin-bottom: 8px;"><i class="fa-solid fa-truck-fast" style="color: var(--accent); margin-right: 8px;"></i> 1. What is the delivery time?</h3>
+                <p style="color: var(--muted); font-size: 14px; line-height: 1.7;">Standard delivery takes 3 to 5 working days across Pakistan. Tracking details will be shared via WhatsApp upon confirmation.</p>
             </div>
-            <div style="background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
-                <h3 style="color: var(--white); margin-bottom: 8px;">2. What payment methods are accepted?</h3>
-                <p style="color: var(--muted); font-size: 14px;">Currently, we offer Cash on Delivery (COD) for a secure shopping experience.</p>
+            <div class="scroll-reveal" style="background: var(--card); padding: 24px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow);">
+                <h3 style="color: var(--white); margin-bottom: 8px;"><i class="fa-solid fa-wallet" style="color: var(--accent); margin-right: 8px;"></i> 2. What payment methods are accepted?</h3>
+                <p style="color: var(--muted); font-size: 14px; line-height: 1.7;">Currently, we offer Cash on Delivery (COD) for a seamless and secure shopping experience.</p>
             </div>
-            <div style="background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
-                <h3 style="color: var(--white); margin-bottom: 8px;">3. How can I choose the right size?</h3>
-                <p style="color: var(--muted); font-size: 14px;">You can select your preferred size (S, M, L, XL) directly on the product card or detail page before adding items to your bag.</p>
+            <div class="scroll-reveal" style="background: var(--card); padding: 24px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow);">
+                <h3 style="color: var(--white); margin-bottom: 8px;"><i class="fa-solid fa-shirt" style="color: var(--accent); margin-right: 8px;"></i> 3. How can I choose the right size?</h3>
+                <p style="color: var(--muted); font-size: 14px; line-height: 1.7;">You can select your preferred size (S, M, L, XL) directly on the product card or quick view modal before adding items to your bag.</p>
             </div>
         </div>
     </main>
@@ -45,5 +51,13 @@
         <a href="index.html" class="logo"><img src="images/logo.png" alt="ZIA Logo"></a>
         <p>© 2026 ZIA. The Art of Dressing.</p>
     </footer>
+
+    <!-- Floating Action Buttons -->
+    <a href="https://wa.me/923710201700" target="_blank" class="wa-float-btn" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button id="backToTop" class="back-to-top" aria-label="Back to Top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 </body>
 </html>

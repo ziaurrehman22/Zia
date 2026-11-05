@@ -19,8 +19,12 @@
     <header class="navbar">
         <a href="index.html" class="logo">
             <img src="images/logo.png" alt="ZIA Logo">
-        </a>
-        
+         <nav class="nav-links-desktop">
+            <a href="index.html">Home</a>
+            <a href="faq.html">FAQ</a>
+            <a href="privacy-policy.html">Privacy Policy</a>
+        </nav>
+
         <div class="nav-actions">
             <a href="cart.html" class="cart-link">
                 <i class="fa-solid fa-bag-shopping"></i>
@@ -35,49 +39,25 @@
 
     <!-- Cart Page Main -->
     <main class="cart-page">
-
-        <!-- Order Progress Steps Bar -->
-        <!-- <div class="checkout-steps">
-            <div class="step active">
-                <span class="step-num">1</span>
-                <span class="step-label">Shopping Bag</span>
-            </div>
-            <div class="step-line"></div>
-            <div class="step">
-                <span class="step-num">2</span>
-                <span class="step-label">WhatsApp Order</span>
-            </div>
-            <div class="step-line"></div>
-            <div class="step">
-                <span class="step-num">3</span>
-                <span class="step-label">Confirmation</span>
-            </div>
-        </div> -->
-
-        <div class="cart-header">
+        <div class="cart-header fade-in">
             <h1>Shopping Bag</h1>
-            <p class="cart-subtitle">Review your selected pieces and customize size or quantity before placing order.
-            </p>
+            <p class="cart-subtitle">Review your selected pieces and customize size or quantity before placing order.</p>
         </div>
 
         <div class="cart-layout">
             <!-- Left Side: Dynamic Items List -->
-            <section id="cart-items" class="cart-items" aria-label="Cart items"></section>
+            <section id="cart-items" class="cart-items slide-left" aria-label="Cart items"></section>
 
-            <!-- Right Side: Detailed Summary Card inside cart.html -->
-            <aside class="cart-summary">
+            <!-- Right Side: Detailed Summary Card -->
+            <aside class="cart-summary slide-right">
                 <h2>Order Summary</h2>
 
                 <!-- Customer Details Form -->
                 <div class="checkout-form" style="margin-bottom: 20px; display: grid; gap: 12px;">
                     <h4 style="font-size: 14px; color: var(--white); margin-bottom: -4px;">Shipping Details</h4>
-                    <input type="text" id="customer-name" placeholder="Full Name *" required
-                        style="padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--white); font-size: 13px;">
-                    <input type="tel" id="customer-phone" placeholder="Phone Number (e.g. 03001234567) *" required
-                        style="padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--white); font-size: 13px;">
-                    <textarea id="customer-address" placeholder="Complete Delivery Address (House, Street, City) *"
-                        rows="2" required
-                        style="padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--white); font-size: 13px; resize: none;"></textarea>
+                    <input type="text" id="customer-name" placeholder="Full Name *" required>
+                    <input type="tel" id="customer-phone" placeholder="Phone Number (e.g. 03001234567) *" required>
+                    <textarea id="customer-address" placeholder="Complete Delivery Address (House, Street, City) *" rows="2" required style="resize: none;"></textarea>
                 </div>
 
                 <div class="summary-details">
@@ -96,15 +76,15 @@
                 </div>
 
                 <button class="btn full-btn checkout-btn" id="checkout-btn" type="button">
-                    <span>Confirm Order</span>
-                    <!-- <i class="fa-brands fa-whatsapp"></i> -->
+                    <!-- <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> -->
+                    <span>Confirm Order <br>via WhatsApp</span>
                 </button>
 
-                <button class="btn full-btn reset-cart-btn" id="reset-cart-btn" type="button"
-                    style="background: var(--danger); border-color: var(--danger); margin-top: 10px;">
-                    <span>Reset Cart</span>
-                    <i class="fa-solid fa-rotate-left"></i>
+                <button class="btn full-btn reset-cart-btn" id="reset-cart-btn" type="button">
+                    <span>Reset</span>
+                    <!-- <i class="fa-solid fa-rotate-left"></i> -->
                 </button>
+            </aside>
         </div>
     </main>
 
@@ -114,11 +94,18 @@
             <img src="images/logo.png" alt="ZIA Clothing Brand Logo">
         </a>
         <div style="display: flex; gap: 15px; margin: 10px 0;">
-            <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy-policy.html">Privacy
-                Policy</a>
+            <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy-policy.html">Privacy Policy</a>
         </div>
         <p>© 2026 ZIA. The Art of Dressing.</p>
     </footer>
+
+    <!-- Floating Action Buttons -->
+    <a href="https://wa.me/923710201700" target="_blank" class="wa-float-btn" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button id="backToTop" class="back-to-top" aria-label="Back to Top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
 </body>
 

@@ -8,24 +8,30 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header class="navbar">
         <a href="index.html" class="logo"><img src="images/logo.png" alt="ZIA Logo"></a>
-        <nav class="nav-links" style="display: flex; gap: 20px; align-items: center;">
+        <nav class="nav-links-desktop">
             <a href="index.html">Home</a>
             <a href="faq.html">FAQ</a>
             <a href="cart.html">Cart</a>
         </nav>
+        <div class="nav-actions">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light theme" type="button">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
     </header>
 
     <main class="section" style="max-width: 800px; margin: 0 auto;">
-        <div class="section-heading">
+        <div class="section-heading scroll-reveal">
             <h2>Privacy <span>Policy</span></h2>
             <p>Your privacy is important to us.</p>
         </div>
 
-        <div style="background: var(--card); padding: 30px; border-radius: 12px; border: 1px solid var(--border); display: grid; gap: 20px; color: var(--muted); font-size: 14px; line-height: 1.8;">
+        <div class="scroll-reveal" style="background: var(--card); padding: 36px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow); display: grid; gap: 20px; color: var(--muted); font-size: 14px; line-height: 1.8;">
             <p>At ZIA Clothing, accessible from our website, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by ZIA Clothing and how we use it.</p>
             <h3 style="color: var(--white);">Information We Collect</h3>
             <p>When you place an order via WhatsApp or use our website, we may collect personal information such as your name, shipping address, and phone number solely for order fulfillment and delivery purposes.</p>
@@ -38,5 +44,13 @@
         <a href="index.html" class="logo"><img src="images/logo.png" alt="ZIA Logo"></a>
         <p>© 2026 ZIA. The Art of Dressing.</p>
     </footer>
+
+    <!-- Floating Action Buttons -->
+    <a href="https://wa.me/923710201700" target="_blank" class="wa-float-btn" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button id="backToTop" class="back-to-top" aria-label="Back to Top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 </body>
 </html>

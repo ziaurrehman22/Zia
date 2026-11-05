@@ -1,5 +1,5 @@
 /* ==========================================
-   ZIA CLOTHING - MAIN SCRIPT (WITH SWEETALERT2)
+   ZIA CLOTHING - COMPLETE MAIN SCRIPT (2026)
 ========================================== */
 
 /* 1. MIGRATE OLD CART DATA */
@@ -143,15 +143,14 @@ function displayProducts(filteredCategory = "all") {
     productGrid.innerHTML = itemsToDisplay.map(product => {
         const sizes = product.sizes || ["S", "M", "L", "XL"];
         return `
-        <article class="product-card" data-id="${product.id}">
-            <div class="product-image clickable-detail">
+        <article class="product-card scroll-reveal" data-id="${product.id}">
+            <div class="product-image">
                 <img src="${product.image}" alt="${product.name}" loading="lazy">
             </div>
             <div class="product-info">
-                <h3 class="clickable-detail">${product.name}</h3>
-                <p class="clickable-detail">${product.description}</p>
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
                 
-                <!-- Product Card Size Selector -->
                 <div class="card-size-selector">
                     <span style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 5px;">Select Size:</span>
                     <div class="card-sizes">
@@ -168,6 +167,8 @@ function displayProducts(filteredCategory = "all") {
             </div>
         </article>
     `}).join("");
+
+    initScrollAnimations();
 }
 
 displayProducts();
@@ -181,6 +182,127 @@ if (categorySection) {
         btn.classList.add("active");
 
         displayProducts(btn.dataset.category);
+    });
+}
+
+/* 5. ADD TO CART WITH MEANINGFUL SWEETALERT */
+function addToCart(id, qty = 1, size = "M") {
+    const product = products.find(item => item.id === id);
+    if (!product) return;
+
+    const cart = getCart();
+    const existing = cart.find(item => item.id === id && item.size === size);
+
+    if (existing) {
+        existing.quantity += qty;
+    } else {
+        cart.push({
+            ...product,
+            quantity: qty,
+            size: size
+        });
+    }
+
+    saveCart(cart);
+    updateCartCount();
+
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: `Added to Shopping Bag!`,
+            html: `<strong>${product.name}</strong> (Size: ${size})`,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+        });
+    }
+}
+
+/* 6. UPDATE CART COUNT WITH ANIMATION */
+function updateCartCount() {
+    const count = document.getElementById("cart-count");
+    if (!count) return;
+
+    const totalQuantity = getCart().reduce(
+        (sum, item) => sum + (Number(item.quantity) || 0),
+        0
+    );
+
+    count.textContent = totalQuantity;
+
+    count.classList.remove("badge-animate");
+    void count.offsetWidth;
+    count.classList.add("badge-animate");
+}
+
+/* 7. QUICK-VIEW MODAL CONTROLLER */
+const qvModal = document.getElementById("quick-view-modal");
+const qvContent = document.getElementById("qv-modal-content");
+const qvCloseBtn = document.getElementById("qv-close-btn");
+
+function openQuickView(productId) {
+    const product = products.find(p => p.id === Number(productId));
+    if (!product || !qvModal || !qvContent) return;
+
+    const sizes = product.sizes || ["S", "M", "L", "XL"];
+    const defaultSize = sizes[0];
+
+    qvContent.innerHTML = `
+        <div class="qv-grid">
+            <div class="qv-image-box">
+                <img src="${product.image}" alt="${product.name}">
+            </div>
+            <div class="qv-details">
+                <span class="detail-category">${product.category.toUpperCase()}</span>
+                <h2 class="qv-title">${product.name}</h2>
+                <div class="qv-price">${money(product.price)}</div>
+                <p class="qv-description">${product.description}</p>
+                <p class="qv-description" style="font-size: 12px; color: var(--white); background: var(--soft-blue); padding: 10px; border-radius: 8px;">${product.details}</p>
+                
+                <div class="card-size-selector" style="margin: 10px 0;">
+                    <span style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px;">Select Size:</span>
+                    <div class="card-sizes" id="qv-size-group">
+                        ${sizes.map((sz, i) => `<button type="button" class="card-size-btn ${i === 0 ? 'active' : ''}" data-size="${sz}">${sz}</button>`).join('')}
+                    </div>
+                </div>
+
+                <div class="qv-actions">
+                    <button class="btn full-btn" id="qv-add-btn" type="button" style="margin-top: 0;">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    qvModal.classList.add("active");
+
+    const sizeGroup = document.getElementById("qv-size-group");
+    sizeGroup.addEventListener("click", (e) => {
+        const btn = e.target.closest(".card-size-btn");
+        if (!btn) return;
+        sizeGroup.querySelectorAll(".card-size-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    });
+
+    document.getElementById("qv-add-btn").addEventListener("click", () => {
+        const activeSizeBtn = sizeGroup.querySelector(".card-size-btn.active");
+        const selectedSize = activeSizeBtn ? activeSizeBtn.dataset.size : defaultSize;
+        addToCart(product.id, 1, selectedSize);
+        closeQuickView();
+    });
+}
+
+function closeQuickView() {
+    if (qvModal) qvModal.classList.remove("active");
+}
+
+if (qvCloseBtn && qvModal) {
+    qvCloseBtn.addEventListener("click", closeQuickView);
+    qvModal.addEventListener("click", (e) => {
+        if (e.target === qvModal) closeQuickView();
     });
 }
 
@@ -205,54 +327,12 @@ if (productGrid) {
 
         const card = event.target.closest(".product-card");
         if (card) {
-            const productId = card.dataset.id;
-            window.location.href = `product-detail.html?id=${productId}`;
+            openQuickView(card.dataset.id);
         }
     });
 }
 
-/* 5. ADD TO CART WITH SWEETALERT */
-function addToCart(id, qty = 1, size = "M") {
-    const product = products.find(item => item.id === id);
-    if (!product) return;
-
-    const cart = getCart();
-    const existing = cart.find(item => item.id === id && item.size === size);
-
-    if (existing) {
-        existing.quantity += qty;
-    } else {
-        cart.push({
-            ...product,
-            quantity: qty,
-            size: size
-        });
-    }
-
-    saveCart(cart);
-    updateCartCount();
-
-}
-
-/* 6. UPDATE CART COUNT WITH ANIMATION */
-function updateCartCount() {
-    const count = document.getElementById("cart-count");
-    if (!count) return;
-
-    const totalQuantity = getCart().reduce(
-        (sum, item) => sum + (Number(item.quantity) || 0),
-        0
-    );
-
-    count.textContent = totalQuantity;
-
-    // Visual animation trigger when count updates
-    count.classList.remove("badge-animate");
-    void count.offsetWidth; // Trigger reflow
-    count.classList.add("badge-animate");
-}
-
-/* 7. CART PAGE RENDER WITH SIZE CHANGING DROPDOWN */
+/* 8. CART PAGE RENDER */
 function renderCart() {
     const container = document.getElementById("cart-items");
     if (!container) return;
@@ -263,8 +343,8 @@ function renderCart() {
         container.innerHTML = `
             <div class="empty-cart">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <h2>Your Bag Is Empty</h2>
-                <p>Discover your next favourite outfit from the ZIA collection.</p>
+                <h2>Your Shopping Bag Is Empty</h2>
+                <p>Discover your next favorite outfit from the ZIA collection.</p>
                 <br>
                 <a class="btn" href="index.html#menu">Explore Collection</a>
             </div>
@@ -285,7 +365,7 @@ function renderCart() {
                             ${availableSizes.map(sz => `<option value="${sz}" ${sz === (item.size || 'M') ? 'selected' : ''}>${sz}</option>`).join('')}
                         </select>
                     </div>
-                    <p class="cart-item-price">${money(item.price * item.quantity)}</p>
+                    <p class="cart-item-price">${money(Number(item.price) * Number(item.quantity))}</p>
                     <div class="quantity">
                         <button data-change="-1" data-id="${item.id}" data-size="${item.size || 'M'}" type="button" aria-label="Decrease quantity">−</button>
                         <span>${item.quantity}</span>
@@ -344,16 +424,18 @@ if (cartItems) {
         if (removeButton) {
             const id = Number(removeButton.dataset.remove);
             const size = removeButton.dataset.size;
+            const targetItem = cart.find(p => p.id === id && p.size === size);
             cart = cart.filter(product => !(product.id === id && product.size === size));
 
-            if (typeof Swal !== 'undefined') {
+            if (typeof Swal !== 'undefined' && targetItem) {
                 Swal.fire({
                     toast: true,
                     position: 'top-end',
                     icon: 'info',
-                    title: 'Item removed from bag',
+                    title: 'Item Removed',
+                    html: `<strong>${targetItem.name}</strong> removed from bag`,
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1800
                 });
             }
         }
@@ -365,121 +447,7 @@ if (cartItems) {
     renderCart();
 }
 
-/* 8. PRODUCT DETAIL PAGE CONTROLLER */
-function initProductDetailPage() {
-    const detailContainer = document.getElementById("product-detail-container");
-    if (!detailContainer) return;
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = Number(urlParams.get("id"));
-    const product = products.find(p => p.id === productId);
-
-    if (!product) {
-        detailContainer.innerHTML = `
-            <div style="text-align:center; padding: 60px 0;">
-                <h2>Product Not Found</h2>
-                <p style="color: var(--muted); margin: 15px 0;">The item you are looking for does not exist.</p>
-                <a href="index.html#menu" class="btn"><i class="fa-solid fa-arrow-left"></i> Back to Collection</a>
-            </div>
-        `;
-        return;
-    }
-
-    const availableSizes = product.sizes && product.sizes.length > 0 ? product.sizes : ["S", "M", "L", "XL"];
-    const defaultSize = availableSizes[0];
-
-    const sizeButtonsHTML = availableSizes.map((size, index) => `
-        <label class="size-radio-label ${index === 0 ? 'active' : ''}">
-            <input type="radio" name="product_size" value="${size}" ${index === 0 ? 'checked' : ''} style="display: none;">
-            <span>${size}</span>
-        </label>
-    `).join("");
-
-    detailContainer.innerHTML = `
-        <div class="product-detail-grid">
-            <div class="detail-gallery">
-                <div class="main-image-box">
-                    <img id="detail-main-img" src="${product.image}" alt="${product.name}">
-                </div>
-
-            </div>
-
-            <div class="detail-info">
-                <span class="detail-category">${product.category.toUpperCase()}</span>
-                <h1 class="detail-title">${product.name}</h1>
-                <div class="detail-price-box">
-                    <span class="detail-price">${money(product.price)}</span>
-                    <span class="stock-status"><i class="fa-solid fa-check-circle"></i> In Stock</span>
-                </div>
-
-                <p class="detail-description">${product.description}</p>
-                
-                <div class="detail-specifications">
-                    <h4>Product Highlights</h4>
-                    <p>${product.details}</p>
-                </div>
-
-                <div class="detail-options">
-                    <label>Select Size: <strong id="selected-size-label" style="color: var(--accent);">${defaultSize}</strong></label>
-                    <div class="size-selector" id="size-selector-group">
-                        ${sizeButtonsHTML}
-                    </div>
-                </div>
-
-                <div class="detail-actions">
-                    <div class="qty-picker">
-                        <button id="qty-minus" type="button">-</button>
-                        <input id="detail-qty" type="number" value="1" min="1" readonly>
-                        <button id="qty-plus" type="button">+</button>
-                    </div>
-                    <button class="btn add-to-bag-btn" id="add-to-bag-detail" type="button">
-                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    const qtyInput = document.getElementById("detail-qty");
-    document.getElementById("qty-minus").addEventListener("click", () => {
-        let current = parseInt(qtyInput.value) || 1;
-        if (current > 1) qtyInput.value = current - 1;
-    });
-
-    document.getElementById("qty-plus").addEventListener("click", () => {
-        let current = parseInt(qtyInput.value) || 1;
-        qtyInput.value = current + 1;
-    });
-
-    const sizeGroup = document.getElementById("size-selector-group");
-    const sizeLabel = document.getElementById("selected-size-label");
-
-    sizeGroup.addEventListener("click", (e) => {
-        const clickedLabel = e.target.closest(".size-radio-label");
-        if (!clickedLabel) return;
-
-        sizeGroup.querySelectorAll(".size-radio-label").forEach(l => l.classList.remove("active"));
-        clickedLabel.classList.add("active");
-
-        const radioInput = clickedLabel.querySelector("input[type='radio']");
-        if (radioInput) {
-            radioInput.checked = true;
-            if (sizeLabel) sizeLabel.textContent = radioInput.value;
-        }
-    });
-
-    document.getElementById("add-to-bag-detail").addEventListener("click", () => {
-        const qty = parseInt(qtyInput.value) || 1;
-        const checkedRadio = sizeGroup.querySelector("input[type='radio']:checked");
-        const selectedSize = checkedRadio ? checkedRadio.value : defaultSize;
-
-        addToCart(product.id, qty, selectedSize);
-    });
-}
-
-document.addEventListener("DOMContentLoaded", initProductDetailPage);
-
-/* 9. WHATSAPP CHECKOUT WITH CUSTOMER DETAILS */
+/* 9. WHATSAPP CHECKOUT WITH REGEX & MEANINGFUL SWEETALERT */
 const checkoutBtn = document.getElementById("checkout-btn");
 if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
@@ -489,41 +457,77 @@ if (checkoutBtn) {
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Your Bag Is Empty',
-                    text: 'Please add items to your shopping bag before proceeding to checkout.',
-                    confirmButtonColor: 'var(--accent)'
+                    title: 'Your Bag is Empty',
+                    text: 'Please select items from our collection before proceeding to checkout.',
+                    confirmButtonText: 'Explore Collection'
                 });
             }
             return;
         }
 
-        // Get customer form input values
-        const name = document.getElementById("customer-name")?.value.trim();
-        const phone = document.getElementById("customer-phone")?.value.trim();
-        const address = document.getElementById("customer-address")?.value.trim();
+        const nameInput = document.getElementById("customer-name");
+        const phoneInput = document.getElementById("customer-phone");
+        const addressInput = document.getElementById("customer-address");
 
-        // Validate form fields
+        const name = nameInput?.value.trim();
+        const phone = phoneInput?.value.trim();
+        const address = addressInput?.value.trim();
+
+        // Clear existing errors
+        [nameInput, phoneInput, addressInput].forEach(inp => inp?.classList.remove('error'));
+
         if (!name || !phone || !address) {
+            if (!name && nameInput) nameInput.classList.add('error');
+            if (!phone && phoneInput) phoneInput.classList.add('error');
+            if (!address && addressInput) addressInput.classList.add('error');
+
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Missing Information',
-                    text: 'Please fill your Name, Phone Number, and Delivery Address before Ordering.',
-                    confirmButtonColor: 'var(--accent)'
+                    title: 'Missing Required Fields',
+                    text: 'Please fill out your Name, Contact Number, and Delivery Address.',
+                    confirmButtonText: 'Got It'
                 });
             }
             return;
         }
 
+        const flexiblePhoneRegex = /^(\+92|92|0)?3\d{9}$/;
+        if (!flexiblePhoneRegex.test(phone.replace(/[\s-]/g, ''))) {
+            if (phoneInput) phoneInput.classList.add('error');
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Mobile Number',
+                    text: 'Please enter a valid Pakistani mobile number (e.g. 03001234567 or +923001234567).',
+                    confirmButtonText: 'Try Again'
+                });
+            }
+            return;
+        }
+
+        const subtotal = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity), 0);
+        const itemsSummaryList = cart.map(item => `<li>${item.name} (${item.size}) x ${item.quantity} - <strong>${money(item.price * item.quantity)}</strong></li>`).join("");
+
         if (typeof Swal !== 'undefined') {
             Swal.fire({
-                title: 'Proceed to WhatsApp?',
-                text: 'Your order details will be prepared for instant confirmation via WhatsApp.',
+                title: 'Confirm & Place Order',
+                html: `
+                    <div style="text-align: left; font-size: 13px; color: var(--white); background: var(--soft-blue); padding: 15px; border-radius: 10px; margin-top: 10px;">
+                        <p style="margin-bottom: 6px;"><strong>Deliver to:</strong> ${name}</p>
+                        <p style="margin-bottom: 6px;"><strong>Phone:</strong> ${phone}</p>
+                        <p style="margin-bottom: 12px;"><strong>Address:</strong> ${address}</p>
+                        <hr style="border: 0; border-top: 1px solid var(--border); margin: 8px 0;">
+                        <ul style="padding-left: 18px; margin-bottom: 10px;">${itemsSummaryList}</ul>
+                        <p style="font-size: 15px; font-weight: bold; color: var(--accent);">Total: ${money(subtotal)} (COD)</p>
+                    </div>
+                `,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#25D366',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Open WhatsApp'
+                cancelButtonColor: '#727D73',
+                confirmButtonText: '<i class="fa-brands fa-whatsapp"></i> Open WhatsApp',
+                cancelButtonText: 'Modify Order'
             }).then((result) => {
                 if (result.isConfirmed) {
                     executeWhatsAppCheckout(cart, { name, phone, address });
@@ -537,24 +541,32 @@ if (checkoutBtn) {
 
 function executeWhatsAppCheckout(cart, customer) {
     const phoneNumber = "923710201700";
-    let orderText = "`Hello ZIA Clothing!` I would like to place a new order:\n\n";
+    let orderText = "*Hello ZIA Clothing!* I would like to place a new order:";
 
-    orderText += `*Customer Details:*\n`;
-    orderText += `• Name: ${customer.name}\n`;
-    orderText += `• Phone: ${customer.phone}\n`;
-    orderText += `• Address: ${customer.address}\n\n`;
+    orderText += "*Customer Details:*";
+    orderText += `• Name: ${customer.name}
+`;
+    orderText += `• Phone: ${customer.phone}
+`;
+    orderText += `• Address: ${customer.address}
 
-    orderText += `*Order Items:*\n`;
+`;
+
+    orderText += "*Order Items:*";
     cart.forEach((item, index) => {
-        orderText += `${index + 1}. ${item.name} (Size: ${item.size || 'M'}) x ${item.quantity} - ${money(item.price * item.quantity)}\n`;
+        orderText += `${index + 1}. ${item.name} (Size: ${item.size || 'M'}) x ${item.quantity} - ${money(Number(item.price) * Number(item.quantity))}
+`;
     });
 
     const subtotal = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity), 0);
 
-    orderText += `\n*Total Amount:* ${money(subtotal)}\n`;
-    orderText += `• Payment: Cash on Delivery (COD)\n\n`;
-    orderText += `• Delivery charges are not included in the price.\n\n`;
-    orderText += `Please confirm my order. Thank you!`;
+    orderText += `
+*Total Amount:* ${money(subtotal)}
+`;
+    orderText += `• Payment Method: Cash on Delivery (COD)
+
+`;
+    orderText += "Please confirm my order. Thank you!";
 
     const whatsappURL = `https://wa.me/${phoneNumber}?text=` + encodeURIComponent(orderText);
 
@@ -569,7 +581,7 @@ function executeWhatsAppCheckout(cart, customer) {
     }, 1500);
 }
 
-/* 10. INITIALIZATION & THEME */
+/* 10. THEME TOGGLE & INITIALIZATION */
 updateCartCount();
 
 (function initTheme() {
@@ -598,10 +610,12 @@ document.addEventListener("DOMContentLoaded", () => {
             updateIcon();
         });
     }
+
+    initScrollAnimations();
+    initBackToTop();
 });
 
-
-/* 11. RESET / CLEAR CART FUNCTIONALITY */
+/* 11. RESET CART */
 const resetCartBtn = document.getElementById("reset-cart-btn");
 
 if (resetCartBtn) {
@@ -612,32 +626,31 @@ if (resetCartBtn) {
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     icon: 'info',
-                    title: 'Your Bag Is Empty',
-                    text: 'Your shopping bag is already empty.',
-                    confirmButtonColor: 'var(--accent)'
+                    title: 'Bag is Already Empty',
+                    text: 'There are no items to reset in your bag.',
+                    confirmButtonText: 'OK'
                 });
             }
             return;
         }
 
-        // SweetAlert2 Confirmation Dialog
         if (typeof Swal !== 'undefined') {
             Swal.fire({
-                title: 'Reset Shopping Bag?',
-                text: 'Are you sure you want to reset your cart?',
+                title: 'Clear Shopping Bag?',
+                text: 'Are you sure you want to remove all selected items from your bag?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#E05A47',
-                cancelButtonColor: '#727D73',
-                confirmButtonText: 'Yes, Reset Cart',
-                cancelButtonText: 'No'
+                confirmButtonColor: '#EF4444',
+                cancelButtonColor: '#64748B',
+                confirmButtonText: 'Yes, Clear All',
+                cancelButtonText: 'Keep Items'
             }).then((result) => {
                 if (result.isConfirmed) {
                     clearCartData();
                 }
             });
         } else {
-            if (confirm("Are you sure you want to reset your cart?")) {
+            if (confirm("Are you sure you want to clear all items from your bag?")) {
                 clearCartData();
             }
         }
@@ -646,15 +659,15 @@ if (resetCartBtn) {
 
 function clearCartData() {
     localStorage.removeItem("ziaCart");
-    renderCart(); // Cart ko refresh karega
-    updateCartCount(); // Count 0 kar dega
+    renderCart();
+    updateCartCount();
 
     if (typeof Swal !== 'undefined') {
         Swal.fire({
             toast: true,
             position: 'top-end',
             icon: 'success',
-            title: 'Item removed from bag',
+            title: 'Shopping Bag Cleared',
             showConfirmButton: false,
             timer: 1800,
             timerProgressBar: true
@@ -662,179 +675,45 @@ function clearCartData() {
     }
 }
 
+/* 12. SCROLL REVEAL ANIMATIONS (INTERSECTION OBSERVER) */
+function initScrollAnimations() {
+    const targets = document.querySelectorAll(".scroll-reveal, .fade-in, .slide-left, .slide-right");
+    if (!targets.length) return;
 
-/* ==========================================================================
-   ADVANCED LIVE CAMERA, SWITCHER, FILTERS & FLASH CONTROLLER
-   ========================================================================== */
-const openCameraBtn = document.getElementById("open-camera-btn");
-const cameraModal = document.getElementById("camera-modal");
-const closeCameraBtn = document.getElementById("close-camera-btn");
-const videoElement = document.getElementById("live-camera-feed");
-const switchCameraBtn = document.getElementById("switch-camera-btn");
-const flashToggleBtn = document.getElementById("flash-toggle-btn");
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
 
-let mediaStream = null;
-let useFrontCamera = true; // Default front camera (user)
-let flashState = false;
-let currentFilter = "none";
-
-if (openCameraBtn && cameraModal) {
-    openCameraBtn.addEventListener("click", async () => {
-        cameraModal.style.display = "flex";
-        await startCameraStream();
-    });
-
-    closeCameraBtn.addEventListener("click", () => {
-        stopCameraStream();
-    });
-
-    // Close modal if clicked outside the box
-    cameraModal.addEventListener("click", (e) => {
-        if (e.target === cameraModal) {
-            stopCameraStream();
-        }
-    });
-}
-
-// Function to start or switch camera stream
-async function startCameraStream() {
-    try {
-        // Stop existing stream if running
-        if (mediaStream) {
-            mediaStream.getTracks().forEach(track => track.stop());
-        }
-
-        const constraints = {
-            video: {
-                facingMode: useFrontCamera ? "user" : { exact: "environment" }
-            },
-            audio: false
-        };
-
-        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-        videoElement.srcObject = mediaStream;
-        videoElement.style.filter = currentFilter;
-    } catch (error) {
-        console.error("Camera access error:", error);
-        // Fallback agar 'exact: environment' support na kare
-        try {
-            mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: useFrontCamera ? "user" : "environment" },
-                audio: false
-            });
-            videoElement.srcObject = mediaStream;
-            videoElement.style.filter = currentFilter;
-        } catch (err) {
-            cameraModal.style.display = "none";
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Camera Access Error',
-                    text: 'Unable to access camera or switch lens on this device.',
-                    confirmButtonColor: 'var(--accent)'
-                });
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                obs.unobserve(entry.target);
             }
-        }
-    }
+        });
+    }, observerOptions);
+
+    targets.forEach(el => observer.observe(el));
 }
 
-/* Switch Front / Back Camera */
-if (switchCameraBtn) {
-    switchCameraBtn.addEventListener("click", async () => {
-        useFrontCamera = !useFrontCamera;
-        flashState = false; // Reset flash on switch
-        if (flashToggleBtn) {
-            flashToggleBtn.style.background = "var(--soft-blue)";
-            flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: Off`;
-        }
-        await startCameraStream();
-    });
-}
+/* 13. BACK TO TOP BUTTON */
+function initBackToTop() {
+    const backBtn = document.getElementById("backToTop");
+    if (!backBtn) return;
 
-/* Filter Buttons Click Event Listener */
-document.addEventListener("click", (e) => {
-    const filterBtn = e.target.closest(".filter-btn");
-    if (!filterBtn || !videoElement) return;
-
-    document.querySelectorAll(".filter-btn").forEach(btn => {
-        btn.style.background = "var(--soft-blue)";
-    });
-    filterBtn.style.background = "var(--accent)";
-
-    currentFilter = filterBtn.dataset.filter;
-    videoElement.style.filter = currentFilter;
-});
-
-/* Flash / Torch Toggle Controller */
-if (flashToggleBtn) {
-    flashToggleBtn.addEventListener("click", async () => {
-        if (!mediaStream) return;
-
-        const track = mediaStream.getVideoTracks()[0];
-        const capabilities = track.getCapabilities ? track.getCapabilities() : {};
-
-        if (!capabilities.torch) {
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Not Supported',
-                    text: 'Flashlight requires the back/rear camera on supported mobile devices.',
-                    confirmButtonColor: 'var(--accent)'
-                });
-            }
-            return;
-        }
-
-        try {
-            flashState = !flashState;
-            await track.applyConstraints({
-                advanced: [{ torch: flashState }]
-            });
-
-            if (flashState) {
-                flashToggleBtn.style.background = "var(--accent)";
-                flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: On`;
-            } else {
-                flashToggleBtn.style.background = "var(--soft-blue)";
-                flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: Off`;
-            }
-        } catch (error) {
-            console.error("Error toggling flash:", error);
-            flashState = !flashState;
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+            backBtn.classList.add("visible");
+        } else {
+            backBtn.classList.remove("visible");
         }
     });
-}
 
-function stopCameraStream() {
-    if (mediaStream) {
-        const track = mediaStream.getVideoTracks()[0];
-        if (track && track.applyConstraints) {
-            track.applyConstraints({ advanced: [{ torch: false }] }).catch(() => { });
-        }
-        mediaStream.getTracks().forEach(track => track.stop());
-        mediaStream = null;
-    }
-
-    if (videoElement) {
-        videoElement.srcObject = null;
-        videoElement.style.filter = "none";
-    }
-
-    if (cameraModal) {
-        cameraModal.style.display = "none";
-    }
-
-    // Reset UI states
-    useFrontCamera = true;
-    flashState = false;
-    currentFilter = "none";
-
-    if (flashToggleBtn) {
-        flashToggleBtn.style.background = "var(--soft-blue)";
-        flashToggleBtn.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i> Flash: Off`;
-    }
-
-    document.querySelectorAll(".filter-btn").forEach((btn, idx) => {
-        btn.style.background = idx === 0 ? "var(--accent)" : "var(--soft-blue)";
+    backBtn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     });
 }
