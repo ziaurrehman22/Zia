@@ -1015,7 +1015,7 @@ img {
 .reset-cart-btn {
     background: transparent;
     border-color: var(--border);
-    background-color: var(--danger);
+    background-color: rgb(209, 4, 4);
     margin-top: 8px;
 }
 

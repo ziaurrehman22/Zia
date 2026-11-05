@@ -552,7 +552,7 @@ function executeWhatsAppCheckout(cart, customer) {
 
 `;
 
-    orderText += "*Order Items:*";
+    orderText += "*Order Items:*" ;
     cart.forEach((item, index) => {
         orderText += `${index + 1}. ${item.name} (Size: ${item.size || 'M'}) x ${item.quantity} - ${money(Number(item.price) * Number(item.quantity))}
 `;
