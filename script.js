@@ -29,78 +29,332 @@
 })();
 
 /* 2. CLOTHING PRODUCTS DATA */
+
 const products = [
     {
+        id: 7,
+        name: "Eclipse Brand of Sacrifice Gothic Hoodie",
+        price: 2899,
+        category: "Hoodies",
+        image: "images/22.jpeg",
+        sizes: ["M", "L", "XL", "XXL"],
+        description: "Dark fantasy masterwork hoodie featuring the dreaded brand of sacrifice and ominous sleeve sigils[cite: 44].",
+        details: "Premium black fleece fabrication with striking red embroidery accents and an ergonomic hood structure[cite: 44]."
+    },
+    {
         id: 1,
-        name: "Black Formal-Shirt",
-        price: 1499,
-        category: "formal shirts",
-        image: "images/black-formal.jfif",
+        name: "Obito Uchiha Crimson Moon Crow Hoodie",
+        price: 2799,
+        category: "Hoodies",
+        image: "images/21.jpeg",
         sizes: ["S", "M", "L", "XL"],
-        description: "Crisp cotton oxford shirt tailored for executive meetings and formal events.",
-        details: "Made from 100% long-staple Egyptian cotton for high durability and breathability. Features a tailored slim fit, button-down collar, and stain-resistant treatment."
+        description: "Immersive anime graphic hoodie depicting a dramatic crimson moon and crow motif[cite: 43].",
+        details: "Crafted from durable heavy-weight cotton fleece with soft inner brushing for maximum winter warmth[cite: 43]."
     },
     {
         id: 2,
-        name: "White Formal-Shirt",
-        price: 1499,
-        category: "formal shirts",
-        image: "images/formal-white.jfif",
+        name: "Akatsuki Red Eye Sharingan Hoodie",
+        price: 2799,
+        category: "Hoodies",
+        image: "images/20.jpeg",
         sizes: ["S", "M", "L", "XL"],
-        description: "A clean, stylish cotton shirt built for work and formal events.",
-        details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
+        description: "Otaku-favorite dark hoodie highlighting the iconic sharingan eye and crimson cloud motif.",
+        details: "Premium cotton blend featuring high-contrast red ink printing and a cozy kangaroo front pocket."
     },
     {
-        id: 3,
-        name: "Charcoal-Gray Formal-Shirt",
-        price: 1499,
-        category: "formal shirts",
-        image: "images/charcoal-gray-formal.jfif",
-        sizes: ["S", "M", "L", "XL"],
-        description: "A clean, stylish cotton shirt built for work and formal events.",
-        details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
+        id: 9,
+        name: "Vortex Tribal Pullover Tracksuit",
+        price: 3499,
+        category: "Matching Sets",
+        image: "images/04.jpeg",
+        sizes: ["S", "M", "L", "XL", "XXL"],
+        description: "Heavyweight matching set featuring bold cyber-tribal prints for a complete look.",
+        details: "Includes pullover hoodie and matching joggers made from ultra-soft heavyweight fleece with deep utility pockets."
     },
     {
-        id: 4,
-        name: "Light-Gray Formal-Shirt",
-        price: 1499,
-        category: "formal shirts",
-        image: "images/light-gray-formal.jfif",
+        id: 8,
+        name: "The One Who Left It All Behind Hoodie",
+        price: 2499,
+        category: "Hoodies",
+        image: "images/01.jpeg",
         sizes: ["S", "M", "L", "XL"],
-        description: "A clean, stylish cotton shirt built for work and formal events.",
-        details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
-    },
-    {
-        id: 5,
-        name: "Textured Cotton Polo",
-        price: 2100,
-        category: "polo shirts",
-        image: "images/black-polo.jfif",
-        sizes: ["S", "M", "L", "XL"],
-        description: "A stylish polo with a clean texture, perfect for casual outings.",
-        details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+        description: "Heavyweight fleece hoodie featuring an iconic anime graphic print on the back.",
+        details: "Crafted from 100% premium cotton fleece. Features a double-layered hood, ribbed cuffs, and a relaxed streetwear fit."
     },
     {
         id: 6,
-        name: "Textured Cotton Polo",
-        price: 2100,
-        category: "polo shirts",
-        image: "images/white-polo.jfif",
+        name: "Scarlet Web Masked Zip-Up Hoodie",
+        price: 2799,
+        category: "Hoodies",
+        image: "images/15.jpeg",
         sizes: ["S", "M", "L", "XL"],
-        description: "A stylish polo with a clean texture, perfect for casual outings.",
-        details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+        description: "Unique superhero-themed zip-up hoodie featuring distinctive mask detailing on the hood.",
+        details: "Full-zip construction with custom red web prints across a pitch-black canvas. Comfortable regular fit."
     },
     {
-        id: 7,
-        name: "Textured Cotton Polo",
-        price: 2100,
-        category: "polo shirts",
-        image: "images/blue-polo.jfif",
+        id: 10,
+        name: "Phantom Sigil White Zip-Up Hoodie",
+        price: 2699,
+        category: "Hoodies",
+        image: "images/03.jpeg",
         sizes: ["S", "M", "L", "XL"],
-        description: "A stylish polo with a clean texture, perfect for casual outings.",
-        details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+        description: "Cyber-sigilism aesthetic zip-up hoodie built for techwear and dark streetwear aesthetics.",
+        details: "Constructed with premium brushed fleece. Features a full-zip front, metallic hardware, and intricate sleeve graphics."
+    },
+    {
+        id: 4,
+        name: "BMW M-Power Apex Motorsport Hoodie",
+        price: 2899,
+        category: "Hoodies",
+        image: "images/12.jpeg",
+        sizes: ["M", "L", "XL", "XXL"],
+        description: "Official-style automotive enthusiast hoodie highlighting iconic motorsport tricolor heritage.",
+        details: "Tailored fit with ribbed side gussets for enhanced mobility. High-definition embroidered logos on chest and sleeves."
+    },
+    {
+        id: 5,
+        name: "AMG Petronas Apex White Edition Hoodie",
+        price: 2799,
+        category: "Hoodies",
+        image: "images/02.jpeg",
+        sizes: ["M", "L", "XL", "XXL"],
+        description: "Sleek motorsport-inspired hoodie designed for Formula 1 enthusiasts and modern streetwear lovers.",
+        details: "Made with breathable thermal cotton blend. Features high-density team logos, signature teal accents, and custom drawstrings."
+    },
+    {
+        id: 12,
+        name: "Sage Mode Kurama Spirit White Hoodie",
+        price: 2799,
+        category: "Hoodies",
+        image: "images/23.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Legendary white anime hoodie celebrating beast chakra transformations and iconic character art[cite: 45].",
+        details: "Bright white cotton fleece base with multi-tone orange graphic elements and robust double stitching[cite: 45]."
+    },
+    {
+        id: 13,
+        name: "Venomous Web Stitched Black Hoodie",
+        price: 2599,
+        category: "Hoodies",
+        image: "images/25.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Edgy spiderweb graphic hoodie designed with high-contrast crimson web patterns[cite: 47].",
+        details: "Soft fleece fabric lined interior, reinforced neckline, and fade-resistant screen printing[cite: 47]."
+    },
+    {
+        id: 14,
+        name: "AMG Petronas Midnight Edition Hoodie",
+        price: 2899,
+        category: "Hoodies",
+        image: "images/26.jpeg",
+        sizes: ["M", "L", "XL", "XXL"],
+        description: "Midnight black motorsport edition hoodie featuring subtle tonal branding and turquoise highlights[cite: 48].",
+        details: "High-grade performance fleece blend designed for optimal comfort, durability, and a sleek aesthetic[cite: 48]."
+    },
+    {
+        id: 15,
+        name: "Nine Tails Sealing Jutsu Orange Hoodie",
+        price: 2699,
+        category: "Hoodies",
+        image: "images/14.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Anime-inspired techwear hoodie featuring iconic sealing jutsu symbols in vibrant flame orange.",
+        details: "Crafted with breathable cotton-rich fabric, structured hood, and fade-resistant graphic treatments."
+    },
+    {
+        id: 16,
+        name: "Roronoa Legacy Three-Sword Style Hoodie",
+        price: 2599,
+        category: "Hoodies",
+        image: "images/17.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Legendary anime swordsman tribute hoodie featuring high-detail grayscale character artwork.",
+        details: "Soft brushed fleece interior paired with durable ribbed cuffs and hem to preserve shape over time."
+    },
+    {
+        id: 17,
+        name: "Dual Arachnid Web Duo Hoodies Collection",
+        price: 2599,
+        category: "Hoodies",
+        image: "images/06.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "High-contrast geometric spiderweb graphic hoodie tailored for alternative fashion styles.",
+        details: "Soft touch exterior with a plush fleece interior. Designed with drop shoulders for a relaxed, boxy silhouette."
+    },
+    {
+        id: 18,
+        name: "Obsidian Sigil Black Zip-Up Hoodie",
+        price: 2699,
+        category: "Hoodies",
+        image: "images/11.jpeg",
+        sizes: ["S", "M", "L", "XL", "XXL"],
+        description: "Pitch black cyber-sigilism zip-up hoodie featuring detailed sleeve and chest prints.",
+        details: "Engineered with rugged metal zippers and heavyweight cotton fabric built for dark streetwear layering."
+    },
+    {
+        id: 19,
+        name: "Dark Soul Awakening Graphic Black Hoodie",
+        price: 2699,
+        category: "Hoodies",
+        image: "images/18.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Moody dark anime aesthetic hoodie featuring fine silver lineart graphics on deep black fleece.",
+        details: "Oversized fit streetwear style made from heavy GSM cotton for a premium drape and feel."
+    },
+    {
+        id: 20,
+        name: "Venom Neon Energy Black Hoodie",
+        price: 2499,
+        category: "Hoodies",
+        image: "images/09.jpeg",
+        sizes: ["M", "L", "XL"],
+        description: "Electric neon-accented energy drink themed hoodie for high-octane streetwear style.",
+        details: "Features vibrant lime-green screen prints on rich black cotton fleece with a spacious front kangaroo pocket."
+    },
+    {
+        id: 21,
+        name: "Radioactive Neon Monster White Hoodie",
+        price: 2499,
+        category: "Hoodies",
+        image: "images/10.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Clean white energy-drink branded hoodie combining high contrast and modern street culture.",
+        details: "Soft organic cotton blend ensuring maximum day-long comfort, featuring reinforced double-needle stitching."
+    },
+    {
+        id: 22,
+        name: "Ride or Die Brushstroke Heavy Hoodie",
+        price: 2599,
+        category: "Hoodies",
+        image: "images/13.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Rebel moto style statement hoodie featuring aggressive hand-brushed typography graphics.",
+        details: "Plush interior fleece lining combined with durable exterior knit to protect against harsh winds."
+    },
+    {
+        id: 23,
+        name: "Venum Apex Fighter White Hoodie",
+        price: 2599,
+        category: "Hoodies",
+        image: "images/16.jpeg",
+        sizes: ["M", "L", "XL", "XXL"],
+        description: "Combat sports athletic hoodie engineered for high performance and striking streetwear presence.",
+        details: "Lightweight yet warm athletic fleece with moisture-wicking properties and sharp contrast branding."
+    },
+    {
+        id: 24,
+        name: "Whatever Bold Typography Streetwear Hoodie",
+        price: 2399,
+        category: "Hoodies",
+        image: "images/07.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Minimalist yet bold statement hoodie featuring high-impact typography across the back and sleeves.",
+        details: "Crafted from ring-spun cotton for an exceptionally smooth finish. Pre-shrunk fabric to maintain fit integrity."
+    },
+    {
+        id: 25,
+        name: "Ethereal Winged Cross White Hoodie",
+        price: 2799,
+        category: "Hoodies",
+        image: "images/08.jpeg",
+        sizes: ["S", "M", "L", "XL"],
+        description: "Gothic metal inspired heavyweight hoodie featuring intricate wing and cross artwork.",
+        details: "Premium winter-ready fleece material with durable screen-printed graphics designed to resist fading."
+    },
+    {
+        id: 26,
+        name: "Abyssal Death Metal Sigil Hoodie",
+        price: 2699,
+        category: "Hoodies",
+        image: "images/19.jpeg",
+        sizes: ["M", "L", "XL"],
+        description: "Extreme metal band style typographic hoodie with intricate symmetrical sleeve art.",
+        details: "Built from dense ring-spun cotton fleece with custom sleeve prints and a deep double-lined hood."
+    },
+    {
+        id: 3,
+        name: "Jumpman Flight Signature Oversized Hoodie",
+        price: 2899,
+        category: "Hoodies",
+        image: "images/24.jpeg",
+        sizes: ["M", "L", "XL", "XXL"],
+        description: "Classic basketball heritage oversized hoodie featuring bold typography and legendary silhouette art[cite: 46].",
+        details: "Luxury streetwear cut with dropped shoulders, heavyweight cotton fleece, and ribbed stretch trims[cite: 46]."
     },
 ];
+
+// const pr = [
+//         {
+//         id: 1,
+//         name: "Black Formal-Shirt",
+//         price: 1499,
+//         category: "formal shirts",
+//         image: "images/black-formal.jfif",
+//         sizes: ["S", "M", "L", "XL"],
+//         description: "Crisp cotton oxford shirt tailored for executive meetings and formal events.",
+//         details: "Made from 100% long-staple Egyptian cotton for high durability and breathability. Features a tailored slim fit, button-down collar, and stain-resistant treatment."
+//     },          
+//     {
+//         id: 2,
+//         name: "White Formal-Shirt",
+//         price: 1499,
+//         category: "formal shirts",
+//         image: "images/formal-white.jfif",
+//         sizes: ["S", "M", "L", "XL"],
+//         description: "A clean, stylish cotton shirt built for work and formal events.",
+//         details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
+//     },
+//     {
+//         id: 3,
+//         name: "Charcoal-Gray Formal-Shirt",
+//         price: 1499,
+//         category: "formal shirts",
+//         image: "images/charcoal-gray-formal.jfif",
+//         sizes: ["S", "M", "L", "XL"],
+//         description: "A clean, stylish cotton shirt built for work and formal events.",
+//         details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
+//     },
+//     {
+//         id: 4,
+//         name: "Light-Gray Formal-Shirt",
+//         price: 1499,
+//         category: "formal shirts",
+//         image: "images/light-gray-formal.jfif",
+//         sizes: ["S", "M", "L", "XL"],
+//         description: "A clean, stylish cotton shirt built for work and formal events.",
+//         details: "Made with 100% pure Egyptian cotton for a soft, breathable feel. Comes in a modern slim fit with a neat button-down collar and stain-resistant fabric."
+//     },
+//     {
+//         id: 5,
+//         name: "Textured Cotton Polo",
+//         price: 2100,
+//         category: "polo shirts",
+//         image: "images/black-polo.jfif",
+//         sizes: ["S", "M", "L", "XL"],
+//         description: "A stylish polo with a clean texture, perfect for casual outings.",
+//         details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+//     },
+//     {
+//         id: 6,
+//         name: "Textured Cotton Polo",
+//         price: 2100,
+//         category: "polo shirts",
+//         image: "images/white-polo.jfif",
+//         sizes: ["S", "M", "L", "XL"],
+//         description: "A stylish polo with a clean texture, perfect for casual outings.",
+//         details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+//     },
+//     {
+//         id: 7,
+//         name: "Textured Cotton Polo",
+//         price: 2100,
+//         category: "polo shirts",
+//         image: "images/blue-polo.jfif",
+//         sizes: ["S", "M", "L", "XL"],
+//         description: "A stylish polo with a clean texture, perfect for casual outings.",
+//         details: "Crafted from 100% premium cotton with a soft feel. Designed with a tailored fit, rib-knit cuffs, and fade-resistant fabric."
+//     },
+// ]
 
 /* 3. HELPERS */
 function getCart() {
@@ -552,7 +806,7 @@ function executeWhatsAppCheckout(cart, customer) {
 
 `;
 
-    orderText += "*Order Items:*" ;
+    orderText += "*Order Items:*";
     cart.forEach((item, index) => {
         orderText += `${index + 1}. ${item.name} (Size: ${item.size || 'M'}) x ${item.quantity} - ${money(Number(item.price) * Number(item.quantity))}
 `;

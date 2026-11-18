@@ -699,7 +699,7 @@ img {
     overflow: hidden;
     background: var(--soft-blue);
     cursor: pointer;
-    aspect-ratio: 3/4;
+    aspect-ratio: 5/4;
 }
 
 .product-card img {
